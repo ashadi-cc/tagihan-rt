@@ -25,7 +25,7 @@
                                         <form method="POST" action="{{ route('login') }}">
                                             @csrf
                                             <div class="form-group">
-                                                <label class="small mb-1" for="inputEmailAddress">Blok Rumah (Misal K-1)</label>
+                                                <label class="small mb-1" for="inputEmailAddress">Blok Rumah (Misal k1) * huruf kecil</label>
                                                 <input class="form-control py-4 @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus id="inputEmailAddress" placeholder="Masukkan blok rumah" />
                                                 @error('username')
                                                     <div class="alert alert-danger" role="alert">
