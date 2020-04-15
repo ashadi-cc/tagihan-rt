@@ -44,7 +44,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" id="rememberPasswordCheck" name="remember" type="checkbox" /><label class="custom-control-label" for="rememberPasswordCheck">Ingat Saya</label></div>
+                                                <input class="custom-control-input" id="rememberPasswordCheck" name="remember" type="checkbox" /><label class="custom-control-label" for="rememberPasswordCheck">Ingat saya</label></div>
                                             </div>
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="small" href="#">Lupa password? hubungi Bendahara RT 04</a>
