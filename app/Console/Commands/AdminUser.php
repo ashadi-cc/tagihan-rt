@@ -40,18 +40,17 @@ class AdminUser extends Command
     public function handle()
     {
         $user = User::firstOrNew([
-            'username' => 'l12',
+            'username' => 'l-12',
         ]); 
 
-        $user->username = 'l12';
+        $user->username = 'l-12';
         $user->blok = 'L-12';
         $user->name = 'Ashadi Cahyadi';
         $user->email = 'ashadi.cc@gmail.com'; 
         $user->password = Hash::make('k0mp1l451'); 
+        $user->save(); 
 
         //assign admin role 
         $user->assignRole('admin'); 
-        
-        $user->save(); 
     }
 }

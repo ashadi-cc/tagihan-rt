@@ -132,6 +132,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'xls_file' => [
+            'mimetypes' => 'File harus microsoft excel (.xlsx)'
+        ]
     ],
 
     /*
