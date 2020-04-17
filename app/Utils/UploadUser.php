@@ -8,9 +8,12 @@ use Excel;
 use Log; 
 
 
-class UploadUser extends Upload 
+class UploadUser 
 {
-    protected $uploadType = 'user'; 
+    /**
+     * use upload trait
+     */
+    use Upload;
 
     /**
      * this should return true or false
@@ -32,12 +35,9 @@ class UploadUser extends Upload
         }
     }
 
-    //must create this
-    public static function NewUpload(User $user)
+    protected function getType()
     {
-        $upload = New self();
-        $upload->setUser($user);
-
-        return $upload;
+        return 'user';
     }
+
 }

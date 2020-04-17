@@ -19,6 +19,7 @@ class CreateBillingsTable extends Migration
             $table->float('amount', 8, 2)->default(0); 
             $table->boolean('auto_per_month');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

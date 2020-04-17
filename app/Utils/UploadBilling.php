@@ -8,9 +8,12 @@ use Excel;
 use Log; 
 
 
-class UploadBilling extends Upload 
+class UploadBilling  
 {
-    protected $uploadType = 'billing'; 
+    /**
+     * use upload trait
+     */
+    use Upload; 
 
     /**
      * this should return true or false
@@ -32,12 +35,9 @@ class UploadBilling extends Upload
         }
     }
 
-    //must create this
-    public static function NewUpload(User $user)
+    protected function getType()
     {
-        $upload = New self();
-        $upload->setUser($user);
-
-        return $upload;
+        return 'billing';
     }
+
 }

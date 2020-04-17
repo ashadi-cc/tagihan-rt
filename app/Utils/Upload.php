@@ -5,7 +5,7 @@ namespace App\Utils;
 use App\Models\Upload as UploadModel;
 use App\User;
 
-class Upload 
+trait Upload 
 {
 
     protected $user; 
@@ -61,6 +61,14 @@ class Upload
             'file_name' => $name,
             'file_type' => $this->getType(),
         ]);
+    }
+
+    public static function NewUpload(User $user)
+    {
+        $upload = New self();
+        $upload->setUser($user);
+
+        return $upload;
     }
 
 }
