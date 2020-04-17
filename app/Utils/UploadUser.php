@@ -7,7 +7,6 @@ use App\Imports\UserImport;
 use Excel;
 use Log; 
 
-
 class UploadUser 
 {
     /**

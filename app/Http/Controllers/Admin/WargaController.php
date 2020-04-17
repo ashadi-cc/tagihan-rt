@@ -21,9 +21,7 @@ class WargaController extends Controller
 
     public function postUpload(Request $request)
     {
-        $request->validate([
-            'xls_file' => 'required|file|mimetypes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        ]); 
+        Util::validateExcelFile($request);
 
         $file = $request->file('xls_file'); 
 
@@ -31,7 +29,7 @@ class WargaController extends Controller
         $success = $upload->process($file); 
         
         if (!$success) {
-            return redirect()->back()->withErrors(['file' =>  'isi file tidak sesuai dengan template']);
+            return redirect()->back()->withErrors(['file' =>  'format file tidak sesuai dengan template']);
         }
 
         $result = $upload->getResult(); 

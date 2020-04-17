@@ -9,26 +9,20 @@ use Log;
 
 class BillingImport implements ToCollection
 {
-    private $successImport = array(); 
+    use ImportData;
 
-    private $failImport = array(); 
-
-    public function getResult()
+    protected function validate($row)
     {
-        return [
-            'success' => $this->successImport,
-            'fail' => $this->failImport,
-        ];
+       return $this->checkHeader([
+           'nama tagihan',
+           'nominal',
+       ], $row);
     }
 
-    public function collection(Collection $rows)
+    public function processData(Collection $rows)
     {
         foreach ($rows as $key => $row) 
         {
-            if (count($row) != 2) {
-                throw new \Exception("file format is not valid");
-            }
-
             try {
                 $saved = $this->saveBilling($key, $row);
                 if ($saved) {
@@ -51,12 +45,17 @@ class BillingImport implements ToCollection
 
     protected function saveBilling($key, $row)
     {
-        if ($key == 0) {
+        if ($key == 0) 
+        {
             return false;
         }
 
         $nameInput = $row[0]; 
         $amountInput = is_numeric($row[1]) ? $row[1]: '0'; 
+
+        if (trim($nameInput) == "") {
+            return false;
+        }
 
         $billing = Billing::where('name', 'like', $nameInput)->first(); 
         if (!$billing) {

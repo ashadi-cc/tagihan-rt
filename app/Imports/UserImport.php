@@ -10,30 +10,26 @@ use Log;
 
 class UserImport implements ToCollection
 {
+    use ImportData;
+
     private $emailTemplate = '@gmr-04.xyz'; 
     
     private $prefixPassword = 'rt4'; 
 
-    private $successImport = array(); 
-
-    private $failImport = array(); 
-
-    public function getResult()
+    protected function validate($row)
     {
-        return [
-            'success' => $this->successImport,
-            'fail' => $this->failImport,
-        ];
+        return $this->checkHeader([
+            'blok',
+            'nama',
+            'email',
+            'is_admin',
+        ], $row);
     }
 
-    public function collection(Collection $rows)
+    public function processData(Collection $rows)
     {
         foreach ($rows as $key => $row) 
         {
-            if (count($row) != 4) {
-                throw new \Exception("file format is not valid");
-            }
-
             try {
                 $saved = $this->saveUser($key, $row);
                 if ($saved) {
@@ -56,7 +52,8 @@ class UserImport implements ToCollection
 
     protected function saveUser($key, $row)
     {
-        if ($key == 0) {
+        if ($key == 0) 
+        {
             return false;
         }
 
@@ -66,7 +63,6 @@ class UserImport implements ToCollection
         $emailInput = $row[2]; 
         $isAdmin = strtolower($row[3]) == 'y' ? true : false; 
         $emailInput = filter_var($emailInput, FILTER_VALIDATE_EMAIL) ? $emailInput : ($usernameInput . $this->emailTemplate); 
-
 
         $user = User::firstOrNew(['username' => $usernameInput]);  
         $user->name = $namaInput;
