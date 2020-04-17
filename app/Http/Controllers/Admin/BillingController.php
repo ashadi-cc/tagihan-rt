@@ -4,19 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Utils\UploadUser;
+use App\Utils\UploadBilling;
 
-
-class WargaController extends Controller 
+class BillingController extends Controller 
 {
     public function index()
     {
-        return view('admin.master.list_warga');
+        return view('admin.master.list_billing');
     }
 
     public function getUpload()
     {
-        return view('admin.master.upload_warga');
+        return view('admin.master.upload_billing');
     }
 
     public function postUpload(Request $request)
@@ -27,7 +26,7 @@ class WargaController extends Controller
 
         $file = $request->file('xls_file'); 
 
-        $upload = UploadUser::NewUpload($request->user());
+        $upload = UploadBilling::NewUpload($request->user());
         $success = $upload->process($file); 
         
         if (!$success) {
@@ -36,10 +35,11 @@ class WargaController extends Controller
 
         $result = $upload->getResult(); 
         $message = [
-            'success' => 'data warga berhasil di import', 
+            'success' => 'data master berhasil di import', 
             'imported' => count($result['success']), 
             'fail' => count($result['fail']),
         ];
         return redirect()->back()->with($message);
     }
+
 }

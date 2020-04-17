@@ -2,18 +2,13 @@
 
 namespace App\Imports; 
 
-use App\User;
-use Hash;
+use App\Models\Billing;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Log;
 
-class UserImport implements ToCollection
+class BillingImport implements ToCollection
 {
-    private $emailTemplate = '@gmr-04.xyz'; 
-    
-    private $prefixPassword = 'rt4'; 
-
     private $successImport = array(); 
 
     private $failImport = array(); 
@@ -30,12 +25,12 @@ class UserImport implements ToCollection
     {
         foreach ($rows as $key => $row) 
         {
-            if (count($row) != 4) {
+            if (count($row) != 2) {
                 throw new \Exception("file format is not valid");
             }
 
             try {
-                $saved = $this->saveUser($key, $row);
+                $saved = $this->saveBilling($key, $row);
                 if ($saved) {
                     $this->successImport[] = [
                         'index' => ($key + 1), 
@@ -54,36 +49,22 @@ class UserImport implements ToCollection
         }
     }
 
-    protected function saveUser($key, $row)
+    protected function saveBilling($key, $row)
     {
         if ($key == 0) {
             return false;
         }
 
-        $usernameInput = strtolower($row[0]); 
-        $blokInput = strtoupper($row[0]); 
-        $namaInput = $row[1]; 
-        $emailInput = $row[2]; 
-        $isAdmin = strtolower($row[3]) == 'y' ? true : false; 
-        $emailInput = filter_var($emailInput, FILTER_VALIDATE_EMAIL) ? $emailInput : ($usernameInput . $this->emailTemplate); 
+        $nameInput = $row[0]; 
+        $amountInput = is_numeric($row[1]) ? $row[1]: '0'; 
 
-
-        $user = User::firstOrNew(['username' => $usernameInput]);  
-        $user->name = $namaInput;
-
-        //user is new record
-        if (!$user->id) {
-            $user->username = $usernameInput; 
-            $user->blok = $blokInput; 
-            $user->email = $emailInput; 
-            $user->name = $namaInput; 
-            $user->password = Hash::make($this->prefixPassword . $usernameInput);
+        $billing = Billing::where('name', 'like', $nameInput)->first(); 
+        if (!$billing) {
+            $billing = Billing::create(['name' => $nameInput, 'auto_per_month' => false]); 
         }
-        $user->save();
-        
-        if ($isAdmin) {
-            $user->assignRole('admin'); 
-        }
+
+        $billing->amount = $amountInput; 
+        $billing->save();
 
         return true;
     }
