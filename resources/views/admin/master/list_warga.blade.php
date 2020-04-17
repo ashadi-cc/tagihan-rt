@@ -8,3 +8,10 @@
         </div>
     </div>
 @endsection
+
+
+@section('scripts')
+    <script src="{{ asset('js/manifest.js') }}"></script>
+    <script src="{{ asset('js/vendor.js') }}"></script>
+    <script src="{{ asset('js/master_user.js') }}"></script>
+@endsection
