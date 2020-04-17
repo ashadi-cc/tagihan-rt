@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Utils\UploadUser;
+use App\Utils\Upload\UploadUser;
 
 
 class WargaController extends Controller 

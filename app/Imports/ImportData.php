@@ -17,7 +17,7 @@ trait ImportData
         ];
     }
 
-    protected function validate($row)
+    public function validate($row)
     {
         return true;
     }

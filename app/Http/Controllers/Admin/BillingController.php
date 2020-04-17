@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Utils\UploadBilling;
+use App\Utils\Upload\UploadBilling;
 
 class BillingController extends Controller 
 {

@@ -7,11 +7,11 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Log;
 
-class BillingImport implements ToCollection
+class BillingImport implements ToCollection, ImportDataInterface
 {
     use ImportData;
 
-    protected function validate($row)
+    public function validate($row)
     {
        return $this->checkHeader([
            'nama tagihan',

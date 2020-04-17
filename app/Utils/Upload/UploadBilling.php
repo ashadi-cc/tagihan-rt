@@ -1,30 +1,30 @@
 <?php 
 
-namespace App\Utils; 
+namespace App\Utils\Upload; 
 
 use App\User;
-use App\Imports\UserImport;
+use App\Imports\BillingImport;
 use Excel;
 use Log; 
 
-class UploadUser 
+class UploadBilling implements UploadInterface
 {
     /**
      * use upload trait
      */
-    use Upload;
+    use Upload; 
 
     /**
      * this should return true or false
      */
-    protected function preProcessUpload($file)
+    public function preProcessUpload($file)
     {
         try {
-            $userImport = new UserImport; 
-            Excel::import($userImport, $file);
+            $billingImport = new BillingImport; 
+            Excel::import($billingImport, $file);
 
             //get result of import status
-            $this->result = $userImport->getResult();
+            $this->result = $billingImport->getResult();
 
             return true; 
         } catch(\Exception $e) {
@@ -34,9 +34,9 @@ class UploadUser
         }
     }
 
-    protected function getType()
+    public function getType()
     {
-        return 'user';
+        return 'billing';
     }
 
 }

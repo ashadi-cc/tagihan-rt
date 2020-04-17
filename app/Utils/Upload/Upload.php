@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Utils; 
+namespace App\Utils\Upload; 
 
 use App\Models\Upload as UploadModel;
 use App\User;
@@ -39,7 +39,7 @@ trait Upload
     }
 
     //implemented this on each type upload
-    protected function preProcessUpload($file)
+    public function preProcessUpload($file)
     {
         return true;
     }
@@ -49,7 +49,7 @@ trait Upload
         $this->createLog($file); 
     }
 
-    protected function getType()
+    public function getType()
     {
         return $this->uploadType; 
     }

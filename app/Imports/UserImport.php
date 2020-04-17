@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Log;
 
-class UserImport implements ToCollection
+class UserImport implements ToCollection, ImportDataInterface
 {
     use ImportData;
 
@@ -16,7 +16,7 @@ class UserImport implements ToCollection
     
     private $prefixPassword = 'rt4'; 
 
-    protected function validate($row)
+    public function validate($row)
     {
         return $this->checkHeader([
             'blok',
