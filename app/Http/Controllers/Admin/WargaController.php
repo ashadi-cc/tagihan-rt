@@ -9,6 +9,8 @@ use App\Utils\Upload\UploadUser;
 
 class WargaController extends Controller 
 {
+    use Util;
+
     public function index()
     {
         return view('admin.master.list_warga');
@@ -21,7 +23,7 @@ class WargaController extends Controller
 
     public function postUpload(Request $request)
     {
-        Util::validateExcelFile($request);
+        $this->validateExcelFile($request);
 
         $file = $request->file('xls_file'); 
 

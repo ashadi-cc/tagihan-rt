@@ -8,6 +8,8 @@ use App\Utils\Upload\UploadBilling;
 
 class BillingController extends Controller 
 {
+    use Util; 
+
     public function index()
     {
         return view('admin.master.list_billing');
@@ -21,7 +23,7 @@ class BillingController extends Controller
     public function postUpload(Request $request)
     {
 
-        Util::validateExcelFile($request);
+        $this->validateExcelFile($request);
 
         $file = $request->file('xls_file'); 
 
