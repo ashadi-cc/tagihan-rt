@@ -1,5 +1,5 @@
 <template>
-    <div class="table-responsive">
+    <div class="">
         <div class="row">
             <div class="col-md-4">
                 <!-- Search form -->
@@ -13,31 +13,34 @@
                 </div>
             </div>
         </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class="no-td">No</th>
-                    <th v-for="(item,index) in tableColumns" :key="index">
-                        {{ item }}
-                    </th>
-                    <th>Edit</th>
-                    <th>Hapus</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-show="loadingRecord">
-                    <td :colspan="loadingColSpan" class="text-center">Memuat data...</td>
-                </tr>
-                <tr v-for="(item,index) in records" :key="item.id" v-show="loadingRecord == false">
-                    <td>{{ index+1 }}</td>
-                    <td v-for="value in tableRow(item)" :key="value">
-                        {{ value }}
-                    </td>
-                    <td><a :href="editUrl(item.id)" class="badge badge-info">Edit</a></td>
-                    <td><a href="#" @click.prevent="deleteData(item.id)" class="badge badge-danger">Hapus</a></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="no-td">No</th>
+                        <th v-for="(item,index) in tableColumns" :key="index">
+                            {{ item }}
+                        </th>
+                        <th>Edit</th>
+                        <th>Hapus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-show="loadingRecord">
+                        <td :colspan="loadingColSpan" class="text-center">Memuat data...</td>
+                    </tr>
+                    <tr v-for="(item,index) in records" :key="item.id" v-show="loadingRecord == false">
+                        <td>{{ index+1 }}</td>
+                        <td v-for="value in tableRow(item)" :key="value">
+                            {{ value }}
+                        </td>
+                        <td><a :href="editUrl(item.id)" class="badge badge-info">Edit</a></td>
+                        <td><a href="#" @click.prevent="deleteData(item.id)" class="badge badge-danger">Hapus</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </template>
 
