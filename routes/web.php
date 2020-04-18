@@ -16,6 +16,9 @@ Auth::routes();
 //root page
 Route::get('/', 'HomeController@index')->name('home');
 
+/** User */
+Route::get('/user/password', 'UserController@index'); 
+Route::put('/user/password', 'UserController@store'); 
 
 //admin route
 Route::prefix('admin')
