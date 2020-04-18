@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Utils\Upload\UploadBilling;
+use App\MasterTable\TableBilling;
 
 class BillingController extends Controller 
 {
@@ -12,7 +13,30 @@ class BillingController extends Controller
 
     public function index()
     {
-        return view('admin.master.list_billing');
+        $table = TableBilling::NewTable(); 
+
+        $data = [
+            'headerTable' => $table->getHeaderCaption(),
+            'headerData' => $table->getHeaderData(),
+            'baseUrl' => url('/admin/master/tagihan/'),
+        ];
+
+        return view('admin.master.list_billing', $data);
+    }
+
+    public function getData(Request $request)
+    {
+        $table = TableBilling::NewTable(); 
+
+        return $table->getData($request);
+    }
+
+    public function delete($billingId)
+    {
+        $table = TableBilling::NewTable(); 
+        $success = $table->delete($billingId); 
+
+        return ['success' => $success]; 
     }
 
     public function getUpload()

@@ -12,5 +12,6 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/master_user.js', 'public/js')
+    .js('resources/js/master_billing.js', 'public/js')
     .extract(['axios', 'vue'])
     .sass('resources/sass/app.scss', 'public/css');

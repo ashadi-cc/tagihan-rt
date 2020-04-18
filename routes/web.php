@@ -26,10 +26,16 @@ Route::prefix('admin')
     Route::get('/master/warga', 'Admin\WargaController@index');
     Route::get('/master/warga/upload', 'Admin\WargaController@getUpload');
     Route::post('/master/warga/upload', 'Admin\WargaController@postUpload');
+    /** CURD */
+    Route::get('/master/warga/get', 'Admin\WargaController@getData');
+    Route::delete('/master/warga/{userID}', 'Admin\WargaController@delete');
 
     //master tagihan
     Route::get('/master/tagihan', 'Admin\BillingController@index');
     Route::get('/master/tagihan/upload', 'Admin\BillingController@getUpload');
     Route::post('/master/tagihan/upload', 'Admin\BillingController@postUpload');
+    /** CURD */
+    Route::get('/master/tagihan/get', 'Admin\BillingController@getData');
+    Route::delete('/master/tagihan/{billingId}', 'Admin\BillingController@delete');
 
 });
