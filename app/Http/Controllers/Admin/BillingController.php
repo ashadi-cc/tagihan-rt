@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Utils\Upload\UploadBilling;
 use App\MasterTable\TableBilling;
+use App\Models\Billing;
 
 class BillingController extends Controller 
 {
@@ -38,6 +39,22 @@ class BillingController extends Controller
 
         return ['success' => $success]; 
     }
+
+    public function edit($billingId)
+    {
+        $billing = Billing::findOrFail($billingId);
+        
+        return view('admin.master.edit_billing', ['billing' => $billing]);
+    }
+
+    public function postEdit(Request $request, $billingId)
+    {
+        $table = TableBilling::NewTable(); 
+        $table->edit($request, $billingId);
+
+        return redirect('/admin/master/tagihan')->with('success', 'Data berhasil dirubah');
+    }
+
 
     public function getUpload()
     {

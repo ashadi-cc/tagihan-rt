@@ -5,6 +5,11 @@
     @include('admin.master._header_warga', ['warga_list' => 'active', 'warga_upload' => ''])
     <div class="card mb-4">
         <div class="card-body" id="app">
+            @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
             <master-table 
             header-table="{{ $headerTable }}"
             header-data="{{ $headerData }}"

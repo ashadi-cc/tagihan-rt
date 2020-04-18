@@ -10,4 +10,5 @@ interface TableInterface
     public function setHeaderData() :array;
     public function getData(Request $request); 
     public function delete($recordId);
+    public function edit(Request $request, $idRecord);
 }

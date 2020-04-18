@@ -29,6 +29,8 @@ Route::prefix('admin')
     /** CURD */
     Route::get('/master/warga/get', 'Admin\WargaController@getData');
     Route::delete('/master/warga/{userID}', 'Admin\WargaController@delete');
+    Route::get('/master/warga/edit/{userID}', 'Admin\WargaController@edit');
+    Route::put('/master/warga/edit/{userID}', 'Admin\WargaController@postEdit');
 
     //master tagihan
     Route::get('/master/tagihan', 'Admin\BillingController@index');
@@ -37,5 +39,7 @@ Route::prefix('admin')
     /** CURD */
     Route::get('/master/tagihan/get', 'Admin\BillingController@getData');
     Route::delete('/master/tagihan/{billingId}', 'Admin\BillingController@delete');
+    Route::get('/master/tagihan/edit/{billingId}', 'Admin\BillingController@edit');
+    Route::put('/master/tagihan/edit/{billingId}', 'Admin\BillingController@postEdit');
 
 });

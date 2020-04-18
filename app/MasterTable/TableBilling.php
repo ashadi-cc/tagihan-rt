@@ -64,4 +64,19 @@ class TableBilling implements TableInterface
         }
     }
 
+    public function edit(Request $request, $idRecord)
+    {
+        $request->validate([
+            'nama' => 'required', 
+            'nominal' => 'required',
+        ]); 
+
+        $billing = Billing::findOrFail($idRecord); 
+
+        $billing->name = $request->nama; 
+        $billing->amount = $request->nominal; 
+
+        $billing->save(); 
+    }
+
 }

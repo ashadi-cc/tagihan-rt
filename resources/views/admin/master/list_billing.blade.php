@@ -5,6 +5,11 @@
     @include('admin.master._header_billing', ['billing_list' => 'active', 'billing_upload' => ''])
     <div class="card mb-4">
         <div class="card-body">
+            @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
             <div id="app">
                 <master-table 
                 header-table="{{ $headerTable }}"

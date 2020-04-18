@@ -48,6 +48,7 @@ class AdminUser extends Command
         $user->name = 'Ashadi Cahyadi';
         $user->email = 'ashadi.cc@gmail.com'; 
         $user->password = Hash::make('k0mp1l451'); 
+        $user->default_password = ''; 
         $user->save(); 
 
         //assign admin role 

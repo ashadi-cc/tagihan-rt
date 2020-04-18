@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Utils\Upload\UploadUser;
 use App\MasterTable\TableUser;
+use App\User;
 
 
 class WargaController extends Controller 
@@ -38,6 +39,21 @@ class WargaController extends Controller
         $success = $table->delete($userId); 
 
         return ['success' => $success]; 
+    }
+
+    public function edit($userId)
+    {
+        $user = User::findOrFail($userId);
+        
+        return view('admin.master.edit_warga', ['user' => $user]);
+    }
+
+    public function postEdit(Request $request, $userId)
+    {
+        $table = TableUser::NewTable(); 
+        $table->edit($request, $userId);
+
+        return redirect('/admin/master/warga')->with('success', 'Data berhasil dirubah');
     }
 
     public function getUpload()

@@ -5,6 +5,7 @@ namespace App\MasterTable;
 use App\User; 
 use Illuminate\Http\Request;
 use Log;
+use Hash;
 
 
 class TableUser implements TableInterface
@@ -17,6 +18,7 @@ class TableUser implements TableInterface
             'Blok',
             'Nama',
             'Email',
+            'Default Password',
             'Admin?',
         ];
     }
@@ -28,8 +30,41 @@ class TableUser implements TableInterface
             'blok',
             'name',
             'email', 
+            'default_password',
             'is_admin',
         ];
+    }
+
+    public function edit(Request $request, $idRecord)
+    {
+        $user = User::findOrFail($idRecord); 
+
+        $validation = [
+            'nama' => 'required',
+            'email' => 'required|email|unique:users,email,'. $user->id,
+        ]; 
+
+        if ($request->password) {
+            $validation['password'] = 'required|min:5';
+            $user->password = Hash::make($request->password);
+            $user->default_password = ''; 
+        }
+
+        $request->validate($validation); 
+
+        $user->name = $request->nama; 
+        $user->email = $request->email; 
+        $user->save();
+
+        if (auth()->user()->id == $user->id) {
+            return;
+        }
+
+        if ($request->is_admin) {
+            $user->assignRole('admin');
+        } else {
+            $user->removeRole('admin');
+        }
     }
 
     public function delete($userId)
@@ -77,6 +112,7 @@ class TableUser implements TableInterface
                 'blok' => $value['blok'], 
                 'name' => $value['name'],
                 'email' => $value['email'],
+                'default_password' => $value['default_password'] ? $value['default_password'] : 'sudah dirubah',
                 'is_admin' => $this->isAdmin($value['roles']),
             ];
 

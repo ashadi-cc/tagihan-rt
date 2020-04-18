@@ -14,8 +14,6 @@ class UserImport implements ToCollection, ImportDataInterface
 
     private $emailTemplate = '@gmr-04.xyz'; 
     
-    private $prefixPassword = 'rt4'; 
-
     public function validate($row)
     {
         return $this->checkHeader([
@@ -73,7 +71,8 @@ class UserImport implements ToCollection, ImportDataInterface
             $user->blok = $blokInput; 
             $user->email = $emailInput; 
             $user->name = $namaInput; 
-            $user->password = Hash::make($this->prefixPassword . $usernameInput);
+            $user->default_password = $this->generateRandomString();
+            $user->password = Hash::make($user->default_password);
         }
         $user->save();
         
@@ -82,5 +81,10 @@ class UserImport implements ToCollection, ImportDataInterface
         }
 
         return true;
+    }
+
+    public function generateRandomString($length = 6) 
+    {
+        return substr(str_shuffle(str_repeat($x='0123456789', ceil($length/strlen($x)) )), 1, $length);
     }
 }
