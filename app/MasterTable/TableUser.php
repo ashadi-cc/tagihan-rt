@@ -94,7 +94,7 @@ class TableUser implements TableInterface
     public function getData(Request $request)
     {
         $query = User::with('roles')
-            ->orderBy('blok', 'asc');
+            ->orderBy('id', 'asc');
         
         if (trim($request->get('q')) != "") {
             $search = '%'. trim($request->get('q')) . '%'; 

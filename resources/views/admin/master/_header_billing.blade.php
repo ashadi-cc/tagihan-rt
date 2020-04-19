@@ -1,4 +1,4 @@
-<ol class="breadcrumb mb-4">
+    <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
         <li class="breadcrumb-item active">Tagihan</li>
     </ol>

@@ -11,11 +11,11 @@
                         {{ method_field('PUT') }}
                         <div class="form-group">
                             <label for="">Username untuk login</label>
-                            <div class="alert alert-info">{{ $user->username }}</div>
+                            <input type="text" class="form-control" value="{{ $user->username }}" disabled>
                         </div>
                         <div class="form-group">
                             <label for="">Blok Rumah</label>
-                            <div class="alert alert-info">{{ $user->blok }}</div>
+                            <input type="text" class="form-control" value="{{ $user->blok }}" disabled>
                         </div>
                         <div class="form-group">
                             <label for="">Email</label>

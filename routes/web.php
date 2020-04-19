@@ -45,4 +45,9 @@ Route::prefix('admin')
     Route::get('/master/tagihan/edit/{billingId}', 'Admin\BillingController@edit');
     Route::put('/master/tagihan/edit/{billingId}', 'Admin\BillingController@postEdit');
 
+    //tagihan upload dan daftar
+    Route::get('/tagihan/upload', 'Admin\TagihanController@index');
+    Route::post('/tagihan/upload', 'Admin\TagihanController@uploadTagihan');
+    Route::get('/tagihan/upload/template/{idTemplate}', 'Admin\TagihanController@getTemplate');
+
 });

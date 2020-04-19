@@ -154,7 +154,7 @@ export default {
                         if (result.data.success) {
                             Swal.fire(
                                 'Deleted!',
-                                'Your file has been deleted.',
+                                'Your record has been deleted.',
                                 'success'
                             )
                             me.query = ''
