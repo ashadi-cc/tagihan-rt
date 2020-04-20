@@ -38,7 +38,6 @@
             </div>
         </div>
         <div class="form-group">
-            <hr>
             <div v-show="isProcess">
                 <div class="spinner-border text-primary" role="status">
                     <span class="sr-only">Loading...</span>

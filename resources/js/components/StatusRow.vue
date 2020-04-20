@@ -1,5 +1,5 @@
 <template>
-    <div class="btn-group btn-status">
+    <div class="btn-group btn-group-sm btn-status">
     <button type="button" class="btn" :class="statusClass">{{ statusText }}</button>
     <button type="button" :class="statusClass" class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="sr-only">Toggle Dropdown</span>
@@ -14,6 +14,12 @@
 
 <script>
 import Swal from 'sweetalert2'
+import Toastr from 'toastr'
+
+Toastr.options.positionClass = "toast-bottom-right"
+Toastr.options.closeButton = true
+Toastr.options.hideDuration = 500
+Toastr.options.showDuration = 300 
 
 export default {
     props:['idRecord', 'statusProp', 'baseUrl'],
@@ -51,7 +57,7 @@ export default {
             }
 
             return {
-                'btn-default': true
+                'btn-secondary': true
             }
         }
     },
@@ -69,6 +75,7 @@ export default {
             axios.put(url, {status: status}).then( result => {
                 if (result.data.success) {
                     me.status = status
+                    Toastr.success("updated")
                 } else {
                     me.errorMessage()
                 }

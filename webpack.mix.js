@@ -15,4 +15,4 @@ mix.js('resources/js/master_user.js', 'public/js')
     .js('resources/js/master_tagihan.js', 'public/js')
     .js('resources/js/master_billing.js', 'public/js')
     .extract(['axios', 'vue', 'numeral'])
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/main.scss', 'public/css');

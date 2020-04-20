@@ -47,6 +47,12 @@
 <script>
 import Swal from 'sweetalert2'
 import _ from 'lodash'
+import Toastr from 'toastr'
+
+Toastr.options.positionClass = "toast-bottom-right"
+Toastr.options.closeButton = true
+Toastr.options.hideDuration = 500
+Toastr.options.showDuration = 300 
 
 export default {
     props: {
@@ -152,11 +158,7 @@ export default {
                     }
                     axios.delete(url).then(result => {
                         if (result.data.success) {
-                            Swal.fire(
-                                'Deleted!',
-                                'Your record has been deleted.',
-                                'success'
-                            )
+                            Toastr.success("deleted")
                             me.query = ''
                             me.requestData()
                         } else {

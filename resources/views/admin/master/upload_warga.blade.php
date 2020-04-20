@@ -32,12 +32,21 @@
                 <div class="form-group">
                     <div class="alert alert-success">
                         {{ session()->get('success') }} <a href="{{ url('/admin/master/warga') }}">Lihat daftar warga</a>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="alert alert-info">
                         {{ session('imported')}} record(s) succeed imported
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="alert alert-danger">
                         {{ session('fail')}} record(s) failed imported
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                 </div>
                 @endif

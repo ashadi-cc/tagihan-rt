@@ -51,6 +51,13 @@ import Swal from 'sweetalert2'
 import _ from 'lodash'
 import AmountRow from './AmountRow'
 import StatusRow from './StatusRow'
+import Toastr from 'toastr'
+
+Toastr.options.positionClass = "toast-bottom-right"
+Toastr.options.closeButton = true
+Toastr.options.hideDuration = 500
+Toastr.options.showDuration = 300 
+
 
 export default {
     components: {
@@ -159,11 +166,7 @@ export default {
                     }
                     axios.delete(url).then(result => {
                         if (result.data.success) {
-                            Swal.fire(
-                                'Deleted!',
-                                'Your record has been deleted.',
-                                'success'
-                            )
+                            Toastr.success('Data terhapus')
                             me.query = ''
                             me.requestData()
                         } else {

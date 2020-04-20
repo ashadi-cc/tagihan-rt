@@ -6,18 +6,24 @@
         <div class="input-group" v-show="editMode" >
             <input type="number" class="form-control" v-model="amountValue" @keydown.esc="editMode = false" ref="amount" @keydown.enter="saveEdit()">
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button" @click="saveEdit()">
+                <span class="input-group-text link-btn" @click="saveEdit()">
                     <i class="fa fa-check"></i>
-                </button>
-                <button class="btn btn-danger" type="button" @click="editMode = false">
+                </span>
+                <span class="input-group-text link-btn" @click="editMode = false">
                     <i class="fa fa-window-close"></i>
-                </button>
+                </span>
             </div>
         </div>
     </div>
 </template>
 <script>
 import Swal from 'sweetalert2'
+import Toastr from 'toastr'
+
+Toastr.options.positionClass = "toast-bottom-right"
+Toastr.options.closeButton = true
+Toastr.options.hideDuration = 500
+Toastr.options.showDuration = 300 
 
 export default {
     props: {
@@ -66,6 +72,7 @@ export default {
             axios.put(url, {amount: this.amountValue}).then( result => {
                 if (result.data.success) {
                     me.amount = me.amountValue
+                    Toastr.success('Updated')
                 } else {
                     me.errorMessage()
                 }
@@ -85,6 +92,7 @@ export default {
 </script>
 
 <style scoped>
+    .link-btn{cursor: pointer;}
     .amount-link{ text-decoration: underline;}
     .text-edit{width: 200px}
 </style>
