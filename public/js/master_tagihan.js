@@ -292,7 +292,7 @@ __webpack_require__.r(__webpack_exports__);
         if (result.data.success) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire({
             icon: 'success',
-            titleText: "Tagihan ".concat(me.namaTagihan, " untuk ").concat(_this2.namaBulan, " ").concat(_this2.year, " berhasil di upload"),
+            titleText: "Iuran ".concat(me.namaTagihan, " untuk ").concat(_this2.namaBulan, " ").concat(_this2.year, " berhasil di upload"),
             html: "data baru/update: ".concat(result.data.imported, " <br> data fail: ").concat(result.data.fail)
           });
         } else {
@@ -630,7 +630,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['token', 'billings', 'options', 'baseUrl'],
   data: function data() {
     return {
-      headerTable: 'Data Tagihan',
+      headerTable: 'Data Iuran',
       formOption: {}
     };
   },
@@ -644,7 +644,7 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      this.headerTable = "Data Tagihan ".concat(data.namaTagihan, " ").concat(data.namaBulan, " ").concat(data.year);
+      this.headerTable = "Data Iuran ".concat(data.namaTagihan, " ").concat(data.namaBulan, " ").concat(data.year);
       this.formOption = data;
     }
   }
@@ -22368,7 +22368,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group col-md-4" }, [
-          _c("label", { attrs: { for: "" } }, [_vm._v("Jenis Tagihan")]),
+          _c("label", { attrs: { for: "" } }, [_vm._v("Jenis Iuran")]),
           _vm._v(" "),
           _c(
             "select",
@@ -22447,7 +22447,7 @@ var render = function() {
               },
               [
                 _vm._v(
-                  "Download contoh template tagihan " + _vm._s(_vm.namaTagihan)
+                  "Download contoh template iuran " + _vm._s(_vm.namaTagihan)
                 )
               ]
             )

@@ -50,6 +50,6 @@ class BillingTemplateExport implements FromCollection, WithMapping, WithHeadings
         $month = strtolower(request('month')) ?: ''; 
 
 
-        return 'template_tagihan_'. $name . '_'. $month .'_'. $year. '.xlsx';
+        return 'template_iuran_'. $name . '_'. $month .'_'. $year. '.xlsx';
     }
 }

@@ -95,7 +95,7 @@ class BillingUserImport implements ToCollection, ImportDataInterface
         });
 
         if (!$foundUser) {
-            return false; 
+            throw new \Exception('user not found');
         }
 
         $billingUser = $this->billings->first(function($value, $key) use ($foundUser) {

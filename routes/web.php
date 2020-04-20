@@ -53,4 +53,7 @@ Route::prefix('admin')
     Route::get('/tagihan/upload/get', 'Admin\TagihanController@getData');
     Route::delete('/tagihan/upload/{idRecord}', 'Admin\TagihanController@delete');
     Route::put('/tagihan/upload/{idRecord}', 'Admin\TagihanController@edit');
+
+    //tagihan bulanan 
+    Route::get('/tagihan/bulanan', 'Admin\TagihanBulanan@index');
 });

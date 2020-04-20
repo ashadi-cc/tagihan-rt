@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <h1 class="mt-4">Upload Daftar Tagihan</h1>
+    <h1 class="mt-4">Upload Daftar Iuran</h1>
     @include('admin.master._header_billing', ['billing_list' => '', 'billing_upload' => 'active'])
     <div class="card mb-4">
         <div class="card-body">
@@ -31,7 +31,7 @@
                 <hr>
                 <div class="form-group">
                     <div class="alert alert-success">
-                        {{ session()->get('success') }} <a href="{{ url('/admin/master/tagihan') }}">Lihat daftar Tagihan</a>
+                        {{ session()->get('success') }} <a href="{{ url('/admin/master/tagihan') }}">Lihat daftar Iuran</a>
                     </div>
                     <div class="alert alert-info">
                         {{ session('imported')}} record(s) succeed imported

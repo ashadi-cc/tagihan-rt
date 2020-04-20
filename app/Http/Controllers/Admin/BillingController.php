@@ -77,7 +77,7 @@ class BillingController extends Controller
 
         $result = $upload->getResult(); 
         $message = [
-            'success' => 'data master tagihan berhasil di import', 
+            'success' => 'data master iuran berhasil di import', 
             'imported' => count($result['success']), 
             'fail' => count($result['fail']),
         ];

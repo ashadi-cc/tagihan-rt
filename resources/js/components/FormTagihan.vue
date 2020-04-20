@@ -19,7 +19,7 @@
                 </select>
             </div>
             <div class="form-group col-md-4">
-                <label for="">Jenis Tagihan</label>
+                <label for="">Jenis Iuran</label>
                 <select name="jenis"  class="form-control" v-model="tagihan" required>
                     <option value=""></option>
                     <option v-for="tagihan in listTagihan" :key="tagihan.id" :value="tagihan.id">
@@ -33,7 +33,7 @@
                 <label for="">Upload tagihan {{ namaTagihan }} (.xlsx)</label>
                 <input type="file" class="form-control-file"  name="xls_file" required :value="file">
                 <span class="small">
-                    <a href="#" @click.prevent="downloadTemplate()">Download contoh template tagihan {{ namaTagihan }}</a>
+                    <a href="#" @click.prevent="downloadTemplate()">Download contoh template iuran {{ namaTagihan }}</a>
                 </span>
             </div>
         </div>
@@ -182,7 +182,7 @@ export default {
                 if (result.data.success) {
                     Swal.fire({
                         icon: 'success',
-                        titleText: `Tagihan ${me.namaTagihan} untuk ${this.namaBulan} ${this.year} berhasil di upload`,
+                        titleText: `Iuran ${me.namaTagihan} untuk ${this.namaBulan} ${this.year} berhasil di upload`,
                         html: `data baru/update: ${result.data.imported} <br> data fail: ${result.data.fail}`
                     })
                 } else {

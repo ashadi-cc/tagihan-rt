@@ -27,7 +27,7 @@ export default {
     ],
     data() {
         return {
-            headerTable: 'Data Tagihan',
+            headerTable: 'Data Iuran',
             formOption: {}
         }
     },
@@ -42,7 +42,7 @@ export default {
                 return;
             }
 
-            this.headerTable = `Data Tagihan ${data.namaTagihan} ${data.namaBulan} ${data.year}`
+            this.headerTable = `Data Iuran ${data.namaTagihan} ${data.namaBulan} ${data.year}`
             this.formOption = data
         }
     }
