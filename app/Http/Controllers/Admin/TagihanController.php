@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Billing;
 use App\Exports\BillingTemplateExport;
 use Excel;
+use App\Utils\Upload\UploadBillingUser;
 
 class TagihanController extends Controller 
 {
@@ -23,6 +24,12 @@ class TagihanController extends Controller
         ]);
     }
 
+    public function getData(Request $request)
+    {
+        return [];
+    }
+
+
     public function getTemplate($idTemplate)
     {
         $billing = Billing::findOrFail($idTemplate); 
@@ -37,7 +44,24 @@ class TagihanController extends Controller
         $this->validateExcelFile($request);
 
         $file = $request->file('xls_file'); 
+        $upload = UploadBillingUser::NewUpload($request->user());
+        $success = $upload->process($file); 
+        
+        if (!$success) {
+            return [
+                'success' => false,
+                'message' => 'File format tidak sesuai'
+            ];
+        }
 
-        dd($file);
+        $result = $upload->getResult(); 
+        $message = [
+            'success' => true, 
+            'imported' => count($result['success']), 
+            'fail' => count($result['fail']),
+        ];
+
+        return $message;
+
     }
 }

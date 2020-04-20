@@ -49,5 +49,6 @@ Route::prefix('admin')
     Route::get('/tagihan/upload', 'Admin\TagihanController@index');
     Route::post('/tagihan/upload', 'Admin\TagihanController@uploadTagihan');
     Route::get('/tagihan/upload/template/{idTemplate}', 'Admin\TagihanController@getTemplate');
-
+    /**CURD */
+    Route::get('/tagihan/upload/get', 'Admin\TagihanController@getData');
 });

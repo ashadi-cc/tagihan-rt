@@ -46,6 +46,10 @@ class BillingTemplateExport implements FromCollection, WithMapping, WithHeadings
         $name = strtolower($this->billing->name); 
         $name = str_replace(' ', '_', trim($name));
 
-        return 'template_tagihan_'. $name . '.xlsx';
+        $year  = strtolower(request('year')) ?: ''; 
+        $month = strtolower(request('month')) ?: ''; 
+
+
+        return 'template_tagihan_'. $name . '_'. $month .'_'. $year. '.xlsx';
     }
 }

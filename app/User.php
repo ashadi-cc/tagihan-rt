@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Upload');
     }
+
+    public function billings()
+    {
+        return $this->hasMany('App\Models\BillingUser');
+    }
 }

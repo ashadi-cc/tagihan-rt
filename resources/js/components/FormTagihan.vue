@@ -4,7 +4,7 @@
         <div class="form-row">
             <div class="form-group col-md-1">
                 <label for="">Tahun</label>
-                <select name="tahun" id="" class="form-control" v-model="year">
+                <select name="tahun"  class="form-control" v-model="year">
                     <option v-for="item in formOption.years" :key="item" :value="item">
                         {{ item }}
                     </option>
@@ -12,7 +12,7 @@
             </div>
             <div class="form-group col-md-2">
                 <label for="">Bulan</label>
-                <select name="bulan" id="" class="form-control" v-model="month">
+                <select name="bulan"  class="form-control" v-model="month">
                     <option v-for="item in formOption.months" :key="item.value" :value="item.value">
                         {{ item.text }}
                     </option>
@@ -20,7 +20,7 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="">Jenis Tagihan</label>
-                <select name="jenis" id="" class="form-control" v-model="tagihan" required>
+                <select name="jenis"  class="form-control" v-model="tagihan" required>
                     <option value=""></option>
                     <option v-for="tagihan in listTagihan" :key="tagihan.id" :value="tagihan.id">
                         {{ tagihan.name }}
@@ -30,8 +30,8 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label for="">Upload Tagihan (.xlsx)</label>
-                <input type="file" class="form-control-file" id="" name="xls_file" required :value="file">
+                <label for="">Upload tagihan {{ namaTagihan }} (.xlsx)</label>
+                <input type="file" class="form-control-file"  name="xls_file" required :value="file">
                 <span class="small">
                     <a href="#" @click.prevent="downloadTemplate()">Download contoh template tagihan {{ namaTagihan }}</a>
                 </span>
@@ -126,7 +126,7 @@ export default {
                 }
             });
 
-            this.namaTagihan = namaTagihan.toLowerCase()
+            this.namaTagihan = namaTagihan
         },
         setNamaBulan() {
             this.namaBulan = '' 
@@ -139,14 +139,16 @@ export default {
         },
         changeFilter() {
             this.file = ''
+            this.setNamaTagihan()
+            this.setNamaBulan()
+
             let data = {
                 year: this.year, 
                 month: this.month, 
                 tagihan: this.tagihan,
+                namaBulan: this.namaBulan,
+                namaTagihan: this.namaTagihan,
             }
-
-            this.setNamaTagihan()
-            this.setNamaBulan()
             this.$emit('changeFilter', data)
         },
         downloadTemplate() {
@@ -159,7 +161,7 @@ export default {
                 return
             }
 
-            let url = `${this.baseUrl}/template/${this.tagihan}`
+            let url = `${this.baseUrl}/template/${this.tagihan}?year=${this.year}&month=${this.namaBulan}`
             document.location.href = url
         },
         submitForm() {
@@ -177,11 +179,19 @@ export default {
             ).then(result => {
                 this.isProcess = false
                 me.changeFilter()
-                Swal.fire(
-                    'Berhasil!',
-                    `Tagihan ${me.namaTagihan} untuk ${this.namaBulan} ${this.year} berhasil di upload`,
-                    'success'
-                )
+                if (result.data.success) {
+                    Swal.fire(
+                        'Berhasil!',
+                        `Tagihan ${me.namaTagihan} untuk ${this.namaBulan} ${this.year} berhasil di upload`,
+                        'success'
+                    )
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops',
+                        text: result.data.message
+                    })
+                }
 
             }).catch( e => {
                 this.isProcess = false
