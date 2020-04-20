@@ -14,7 +14,7 @@ class BillingTemplateExport implements FromCollection, WithMapping, WithHeadings
 
     public function collection()
     {
-        return User::orderBy('id', 'asc')->get();
+        return User::warga()->orderBy('id', 'asc')->get();
     }
 
     

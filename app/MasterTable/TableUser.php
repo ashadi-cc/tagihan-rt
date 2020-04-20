@@ -93,7 +93,7 @@ class TableUser implements TableInterface
 
     public function getData(Request $request)
     {
-        $query = User::with('roles')
+        $query = User::warga()->with('roles')
             ->orderBy('id', 'asc');
         
         if (trim($request->get('q')) != "") {

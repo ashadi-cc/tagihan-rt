@@ -50,6 +50,11 @@ class User extends Authenticatable
         $this->attributes['blok'] = strtoupper($value);
     }
 
+    public function scopeWarga($query)
+    {
+        return $query->where('username', '<>', 'admin');
+    }
+
     /**
      * Get the uploads for the user
      */
