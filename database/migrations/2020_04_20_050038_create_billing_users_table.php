@@ -21,7 +21,7 @@ class CreateBillingUsersTable extends Migration
             $table->string('billing_name'); 
             $table->integer('month')->unsigned()->index(); 
             $table->integer('year')->unsigned()->index();
-            $table->float('amount', 8, 2)->default(0);
+            $table->float('amount', 10, 2)->default(0);
             $table->string('status', 10)->index();
             $table->timestamps();
         });

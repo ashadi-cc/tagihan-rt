@@ -180,11 +180,11 @@ export default {
                 this.isProcess = false
                 me.changeFilter()
                 if (result.data.success) {
-                    Swal.fire(
-                        'Berhasil!',
-                        `Tagihan ${me.namaTagihan} untuk ${this.namaBulan} ${this.year} berhasil di upload`,
-                        'success'
-                    )
+                    Swal.fire({
+                        icon: 'success',
+                        titleText: `Tagihan ${me.namaTagihan} untuk ${this.namaBulan} ${this.year} berhasil di upload`,
+                        html: `data baru/update: ${result.data.imported} <br> data fail: ${result.data.fail}`
+                    })
                 } else {
                     Swal.fire({
                         icon: 'error',

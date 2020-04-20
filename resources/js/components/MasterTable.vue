@@ -8,7 +8,7 @@
                         aria-label="Search">
                     <i class="fas fa-search" aria-hidden="true"></i>
                     <a href="#" title="clear filter" @click.prevent="query = ''">
-                        <i class="fas fa-trash trash-margin" aria-hidden="true"></i>
+                        <i class="fas fa-window-close trash-margin" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>

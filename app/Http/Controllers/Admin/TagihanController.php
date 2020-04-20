@@ -8,6 +8,7 @@ use App\Models\Billing;
 use App\Exports\BillingTemplateExport;
 use Excel;
 use App\Utils\Upload\UploadBillingUser;
+use App\MasterTable\TableTagihan;
 
 class TagihanController extends Controller 
 {
@@ -26,7 +27,27 @@ class TagihanController extends Controller
 
     public function getData(Request $request)
     {
-        return [];
+        $table = TableTagihan::NewTable(); 
+
+        return $table->getData($request);
+    }
+
+    public function delete($idRecord)
+    {
+        $table = TableTagihan::NewTable(); 
+
+        $success =  $table->delete($idRecord);
+
+        return ['success' => $success]; 
+    }
+
+    public function edit(Request $request, $idRecord)
+    {
+        $table = TableTagihan::NewTable(); 
+
+        $success =  $table->edit($request, $idRecord);
+
+        return ['success' => $success]; 
     }
 
 

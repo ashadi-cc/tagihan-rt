@@ -21581,7 +21581,7 @@ var render = function() {
             },
             [
               _c("i", {
-                staticClass: "fas fa-trash trash-margin",
+                staticClass: "fas fa-window-close trash-margin",
                 attrs: { "aria-hidden": "true" }
               })
             ]
@@ -21914,6 +21914,7 @@ module.exports = function(module) {
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+window.Numeral = __webpack_require__(/*! numeral */ "./node_modules/numeral/numeral.js");
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

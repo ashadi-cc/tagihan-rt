@@ -8,7 +8,7 @@
                         aria-label="Search">
                     <i class="fas fa-search" aria-hidden="true"></i>
                     <a href="#" title="clear filter" @click.prevent="query = ''">
-                        <i class="fas fa-trash trash-margin" aria-hidden="true"></i>
+                        <i class="fas fa-window-close trash-margin" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>
@@ -28,13 +28,17 @@
                     <tr v-show="loadingRecord">
                         <td :colspan="loadingColSpan" class="text-center">Memuat data...</td>
                     </tr>
-                    <!-- <tr v-for="(item,index) in records" :key="item.id" v-show="loadingRecord == false">
+                    <tr v-for="(item,index) in records" :key="item.id" v-show="loadingRecord == false">
                         <td>{{ index+1 }}</td>
-                        <td v-for="value in tableRow(item)" :key="value">
-                            {{ value }}
+                        <td>{{ item.user_blok }}</td>
+                        <td>
+                            <amount-row :baseUrl="baseUrl" :amountProp="item.amount" :idRecord="item.id" />
+                        </td>
+                        <td>
+                            <status-row :baseUrl="baseUrl" :statusProp="item.status" :idRecord="item.id"></status-row>
                         </td>
                         <td><a href="#" @click.prevent="deleteData(item.id)" class="badge badge-danger">Hapus</a></td>
-                    </tr> -->
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -45,8 +49,14 @@
 <script>
 import Swal from 'sweetalert2'
 import _ from 'lodash'
+import AmountRow from './AmountRow'
+import StatusRow from './StatusRow'
 
 export default {
+    components: {
+        AmountRow,
+        StatusRow
+    },
     props: {
         searchPlaceholder: {
             type: String, 
@@ -96,17 +106,6 @@ export default {
         }
     },
     methods: {
-        tableRow(row) {
-            let records  = {}
-            this.recordItems.forEach(element => {
-                if (element != 'id') {
-                    records[element] = row[element]
-                }
-            })
-
-            return records
-        },
-
         errorMessage() {
             Swal.fire({
                 icon: 'error',
@@ -131,6 +130,7 @@ export default {
 
             var url = `${this.baseUrl}/get`
             me.loadingRecord = true
+            me.records = []
             axios.get(url, params)
                 .then( response => {
                     me.loadingRecord = false
