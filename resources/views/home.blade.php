@@ -84,7 +84,6 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <h5>Tagihan Lainnya</h5>
                     <div id="other-bill" class="table-responsive">
                     </div>
                 </div>

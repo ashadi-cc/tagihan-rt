@@ -1,3 +1,5 @@
+@if(count($data))
+<h5>Tagihan Lainnya</h5>
 <table class="table">
     <thead>
         <tr>
@@ -24,3 +26,4 @@
         </tfoot>
     </tbody>
 </table>
+@endif
