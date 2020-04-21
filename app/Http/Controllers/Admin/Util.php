@@ -3,13 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Rules\ExcelFile;
 
 trait Util 
 {
     public function validateExcelFile(Request $request)
     {
         $request->validate([
-            'xls_file' => 'required|file|mimetypes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            //'xls_file' => 'required|file|mimetypes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'xls_file' => [
+                'required',
+                'file',
+                new ExcelFile()
+            ]
         ]);
     }
 

@@ -56,4 +56,7 @@ Route::prefix('admin')
 
     //tagihan bulanan 
     Route::get('/tagihan/bulanan', 'Admin\TagihanBulanan@index');
+    Route::get('/tagihan/bulanan/get', 'Admin\TagihanBulanan@getData');
+    Route::put('/tagihan/bulanan/{idRecord}', 'Admin\TagihanBulanan@edit');
+
 });

@@ -104,10 +104,16 @@ class TableBulanan implements TableInterface
     {
         $year = $request->year ?:'0';
         $month = $request->month ?:'0';
-        $this->masterBilling = BillingUser::where([
+        $query = BillingUser::where([
             'year' => $year,
             'month' => $month,
-        ])->orderBy('user_id')->get();
+        ])->orderBy('user_id');
+
+        if (trim($request->q)) {
+            $query->where('user_blok', 'like', '%'. $request->q . '%');
+        }
+
+        $this->masterBilling = $query->get();
 
         $this->generateHeader();
 

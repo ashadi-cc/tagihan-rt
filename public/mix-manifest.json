@@ -1,6 +1,7 @@
 {
     "/js/manifest.js": "/js/manifest.js",
     "/js/master_billing.js": "/js/master_billing.js",
+    "/js/master_bulanan.js": "/js/master_bulanan.js",
     "/js/master_tagihan.js": "/js/master_tagihan.js",
     "/js/master_user.js": "/js/master_user.js",
     "/css/main.css": "/css/main.css",

@@ -13,7 +13,22 @@
                 </div>
             </div>
         </div>
-        <div class="table-responsive">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="head-keterangan">
+                    Keterangan
+                </div>
+                <div class="btn btn-danger btn-sm">Belum Lunas</div>
+                <div class="btn btn-success btn-sm">Lunas</div>
+                <div class="btn btn-warning btn-sm">Tidak Wajib</div>
+                <div class="btn btn-secondary btn-sm">Status belum ada</div>
+                <div class="btn btn-secondary btn-sm">N/A (Kosong)</div>
+            </div>
+        </div>
+        <div class="text-center empty-data" v-show="emptyData">
+            Data Iuran tidak ada
+        </div>
+        <div class="table-responsive" v-show="emptyData == false">
             <table class="table">
                 <thead>
                     <tr>
@@ -21,7 +36,6 @@
                         <th v-for="(item,index) in tableColumns" :key="index">
                             {{ item }}
                         </th>
-                        <th>Hapus</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,14 +44,16 @@
                     </tr>
                     <tr v-for="(item,index) in records" :key="item.id" v-show="loadingRecord == false">
                         <td>{{ index+1 }}</td>
-                        <td>{{ item.user_blok }}</td>
-                        <td>
-                            <amount-row :baseUrl="baseUrl" :amountProp="item.amount" :idRecord="item.id" />
+                        <td>{{ item.blok }}</td>
+                        <td v-for="(value, idx) in tableRow(item)" :key="idx">
+                            <div v-if="value === false">
+                                <div class="btn btn-sm btn-secondary">
+                                    N/A
+                                </div>
+                            </div>
+                            <status-amount-row :item="value" :baseUrl="baseUrl" v-else>
+                            </status-amount-row>
                         </td>
-                        <td>
-                            <status-row :baseUrl="baseUrl" :statusProp="item.status" :idRecord="item.id"></status-row>
-                        </td>
-                        <td><a href="#" @click.prevent="deleteData(item.id)" class="badge badge-danger">Hapus</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -49,20 +65,17 @@
 <script>
 import Swal from 'sweetalert2'
 import _ from 'lodash'
-import AmountRow from './AmountRow'
-import StatusRow from './StatusRow'
 import Toastr from 'toastr'
+import StatusAmountRow from './StatusAmountRow'
 
 Toastr.options.positionClass = "toast-bottom-right"
 Toastr.options.closeButton = true
 Toastr.options.hideDuration = 500
 Toastr.options.showDuration = 300 
 
-
 export default {
     components: {
-        AmountRow,
-        StatusRow
+        StatusAmountRow
     },
     props: {
         searchPlaceholder: {
@@ -73,46 +86,60 @@ export default {
             type: String, 
             default: null
         },
-        headerTable: {
-            type: String, 
-            default: ''
-        },
         filterOption: {
             type: Object,
-            default: null
+            default: {}
         }
     },
     data() {
         return {
             query: '',
+            headerTable: '',
+            headerData: '',
             loadingRecord: false,
-            records: []
+            records: [],
         };
     },
     computed: {
         tableColumns() {
             return this.headerTable.split(',')
         },
+        recordItems() {
+            return this.headerData.split(',')
+        },
         loadingColSpan() {
-            return this.tableColumns.length + 2
+            return this.tableColumns.length + 1
+        },
+        emptyData() {
+            return this.records.length ? false: true 
         }
     },
     mounted() {
-        //
+
     },
     created() {
         this.debounceGetData = _.debounce(this.requestData, 500)
     },
     watch: {
-        //watch query change
         query: function(newQuery, oldQuery) {
             this.debounceGetData()
         },
-        filterOption:function() {
+        filterOption: function(){
             this.requestData()
         }
     },
     methods: {
+        tableRow(row) {
+            let records  = {}
+            this.recordItems.forEach(element => {
+                if (element != 'id' && element != 'blok') {
+                    records[element] = row[element]
+                }
+            })
+
+            return records
+        },
+
         errorMessage() {
             Swal.fire({
                 icon: 'error',
@@ -121,61 +148,29 @@ export default {
             })
         },
         requestData() {
-            if (!this.filterOption.tagihan) {
-                return
-            }
-
-            var me = this
-            var params = {
+            let me = this
+            let  url = `${this.baseUrl}/get`
+            let params = {
                 params: {
                     q: this.query, 
-                    month: this.filterOption.month,
                     year: this.filterOption.year,
-                    billing_id: this.filterOption.tagihan
+                    month: this.filterOption.month
                 }
             }
-
-            var url = `${this.baseUrl}/get`
             me.loadingRecord = true
             me.records = []
             axios.get(url, params)
                 .then( response => {
                     me.loadingRecord = false
-                    me.records = response.data
+
+                    me.headerTable = response.data.headers 
+                    me.headerData = response.data.columns
+                    me.records = response.data.data
                 })
                 .catch(err => {
                     me.loadingRecord = false
                     me.errorMessage()
                 })
-        },
-
-        deleteData(id) {
-            const me = this
-            let url = `${this.baseUrl}/${id}`
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (!result.value) {
-                        return
-                    }
-                    axios.delete(url).then(result => {
-                        if (result.data.success) {
-                            Toastr.success('Data terhapus')
-                            me.query = ''
-                            me.requestData()
-                        } else {
-                            me.errorMessage();
-                        }
-                    }).catch(err => {
-                        me.errorMessage()
-                    })
-            })
         }
     }
 }
@@ -185,6 +180,17 @@ export default {
  .no-td{
      width: 30px;
  }
+ .head-keterangan {
+     padding: 10px;
+     padding-left: 0px;
+     font-weight: bold;
+ }
  .trash-margin{margin-left: 5px;}
  .table {margin-top: 30px;}
+ .empty-data{
+     padding: 30px;
+     margin-top: 30px;
+     border: 1px solid #ced4da;
+     color: #495057;
+ }
 </style>

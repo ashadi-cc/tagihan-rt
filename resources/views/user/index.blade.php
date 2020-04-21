@@ -18,6 +18,10 @@
                             <input type="text" class="form-control" value="{{ $user->blok }}" disabled>
                         </div>
                         <div class="form-group">
+                            <label for="">Nama</label>
+                            <input type="text" class="form-control" value="{{ $user->name }}" disabled>
+                        </div>
+                        <div class="form-group">
                             <label for="">Email</label>
                             <input type="email" class="form-control" name="email" placeholder="Email warga" value="{{ old('email') ?: $user->email }}">
                             @error('email')

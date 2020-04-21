@@ -13,6 +13,8 @@ class UserImport implements ToCollection, ImportDataInterface
     use ImportData;
 
     private $emailTemplate = '@gmr-04.xyz'; 
+
+    private $Users;
     
     public function validate($row)
     {
@@ -26,6 +28,8 @@ class UserImport implements ToCollection, ImportDataInterface
 
     public function processData(Collection $rows)
     {
+        $this->users = User::warga()->get();
+
         foreach ($rows as $key => $row) 
         {
             try {
@@ -56,13 +60,25 @@ class UserImport implements ToCollection, ImportDataInterface
         }
 
         $usernameInput = strtolower($row[0]); 
+        if (trim($usernameInput) == "")
+        {
+            return false;
+        }
+
         $blokInput = strtoupper($row[0]); 
         $namaInput = $row[1]; 
         $emailInput = $row[2]; 
         $isAdmin = strtolower($row[3]) == 'y' ? true : false; 
         $emailInput = filter_var($emailInput, FILTER_VALIDATE_EMAIL) ? $emailInput : ($usernameInput . $this->emailTemplate); 
 
-        $user = User::firstOrNew(['username' => $usernameInput]);  
+        $user = $this->users->first(function($value, $key) use ($usernameInput) {
+            return $value->username == $usernameInput;
+        });
+
+        if (!$user) {
+            $user = new User();
+        }
+
         $user->name = $namaInput;
 
         //user is new record

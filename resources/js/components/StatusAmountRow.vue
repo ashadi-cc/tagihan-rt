@@ -22,22 +22,21 @@ Toastr.options.hideDuration = 500
 Toastr.options.showDuration = 300 
 
 export default {
-    props:['idRecord', 'statusProp', 'baseUrl'],
+    props:['item', 'baseUrl'],
     data() {
         return {
             status: ''
         }
     },
     mounted() {
-        this.status = this.statusProp
+        this.status = this.item.status
     },
     computed: {
         statusText() {
-            if (this.status == 'B') return 'Belum Lunas'
-            if (this.status == 'L') return 'Lunas'
-            if (this.status == 'T') return 'Tidak Wajib'
-
-            return 'Tidak ada'
+            if (this.status == 'T') {
+                return 'Tidak'
+            }
+            return Numeral(this.item.amount).format('0,0')
         },
         statusClass() {
             if (this.status == 'B') {
@@ -70,7 +69,7 @@ export default {
             })
         },
         saveStatus(status) {
-            let url = `${this.baseUrl}/${this.idRecord}`
+            let url = `${this.baseUrl}/${this.item.id}`
             let me = this 
             axios.put(url, {status: status}).then( result => {
                 if (result.data.success) {
@@ -88,5 +87,5 @@ export default {
 </script>
 
 <style scoped>
-    .btn-status {width: 150px;}
+    /* .btn-status {width: 150px;} */
 </style>

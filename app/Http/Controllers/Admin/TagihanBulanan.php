@@ -11,7 +11,14 @@ class TagihanBulanan extends Controller
 {
     use Util; 
 
-    public function index(Request $request)
+    public function index()
+    {
+        $options = $this->getFilterYearandMonth(); 
+        
+        return view('admin.master.list_bulanan', ['options' => $options]);
+    }
+
+    public function getData(Request $request)
     {
         $table = TableBulanan::newTable(); 
         $data = $table->getData($request);
@@ -23,6 +30,14 @@ class TagihanBulanan extends Controller
             'headers' => $headerColumn, 
             'columns' => $headerData,
         ];
+    }
+
+    public function edit(Request $request, $idRecord)
+    {
+        $table = TableBulanan::newTable(); 
+        $success = $table->edit($request, $idRecord); 
+
+        return ['success' => true];
     }
 
 }
