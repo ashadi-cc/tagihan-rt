@@ -15,6 +15,7 @@ class TableUser implements TableInterface
     public function setHeaderCaption() :array 
     {
         return [
+            'Username',
             'Blok',
             'Nama',
             'Email',
@@ -27,6 +28,7 @@ class TableUser implements TableInterface
     {
         return [
             'id',
+            'username',
             'blok',
             'name',
             'email', 
@@ -41,8 +43,12 @@ class TableUser implements TableInterface
 
         $validation = [
             'nama' => 'required',
-            'email' => 'required|email|unique:users,email,'. $user->id,
         ]; 
+
+        if ($request->email) {
+            $validation['email'] = 'required|email|unique:users,email,'. $user->id;
+            $user->email = $request->email; 
+        }
 
         if ($request->password) {
             $validation['password'] = 'required|min:5';
@@ -51,9 +57,8 @@ class TableUser implements TableInterface
         }
 
         $request->validate($validation); 
-
         $user->name = $request->nama; 
-        $user->email = $request->email; 
+
         $user->save();
 
         if (auth()->user()->id == $user->id) {
@@ -109,6 +114,7 @@ class TableUser implements TableInterface
         {
             return [
                 'id' => $value['id'],
+                'username' => $value['username'],
                 'blok' => $value['blok'], 
                 'name' => $value['name'],
                 'email' => $value['email'],

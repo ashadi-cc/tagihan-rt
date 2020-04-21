@@ -18,7 +18,7 @@ class CreateBillingUsersTable extends Migration
             $table->bigInteger('user_id')->unsigned()->index();
             $table->bigInteger('billing_id')->unsigned()->index();
             $table->string('user_blok', 12)->index();
-            $table->string('billing_name'); 
+            $table->string('billing_name', 100)->index(); 
             $table->integer('month')->unsigned()->index(); 
             $table->integer('year')->unsigned()->index();
             $table->float('amount', 10, 2)->default(0);

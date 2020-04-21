@@ -45,6 +45,15 @@ class User extends Authenticatable
         $this->attributes['username'] = strtolower($value);
     }
 
+    public function getEmailAttribute($value)
+    {
+        if (strpos($value, config('default.hostmail'))) {
+            return '';
+        }
+
+        return $value;
+    }
+
     public function setBlokAttribute($value)
     {
         $this->attributes['blok'] = strtoupper($value);

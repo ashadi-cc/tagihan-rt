@@ -12,8 +12,6 @@ class UserImport implements ToCollection, ImportDataInterface
 {
     use ImportData;
 
-    private $emailTemplate = '@gmr-04.xyz'; 
-
     private $Users;
     
     public function validate($row)
@@ -60,6 +58,7 @@ class UserImport implements ToCollection, ImportDataInterface
         }
 
         $usernameInput = strtolower($row[0]); 
+        $usernameInput = str_replace('-', '', $usernameInput);
         if (trim($usernameInput) == "")
         {
             return false;
@@ -69,7 +68,7 @@ class UserImport implements ToCollection, ImportDataInterface
         $namaInput = $row[1]; 
         $emailInput = $row[2]; 
         $isAdmin = strtolower($row[3]) == 'y' ? true : false; 
-        $emailInput = filter_var($emailInput, FILTER_VALIDATE_EMAIL) ? $emailInput : ($usernameInput . $this->emailTemplate); 
+        $emailInput = filter_var($emailInput, FILTER_VALIDATE_EMAIL) ? $emailInput : ($usernameInput . config('default.hostmail')); 
 
         $user = $this->users->first(function($value, $key) use ($usernameInput) {
             return $value->username == $usernameInput;
@@ -77,19 +76,15 @@ class UserImport implements ToCollection, ImportDataInterface
 
         if (!$user) {
             $user = new User();
-        }
-
-        $user->name = $namaInput;
-
-        //user is new record
-        if (!$user->id) {
             $user->username = $usernameInput; 
             $user->blok = $blokInput; 
-            $user->email = $emailInput; 
-            $user->name = $namaInput; 
             $user->default_password = $this->generateRandomString();
             $user->password = Hash::make($user->default_password);
         }
+        
+        $user->name = $namaInput;
+        $user->email = $emailInput; 
+
         $user->save();
         
         if ($isAdmin) {

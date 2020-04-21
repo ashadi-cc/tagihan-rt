@@ -2,13 +2,12 @@
 
 namespace App\MasterTable; 
 
-use App\Models\Billing; 
-use App\Models\BillingUser;
+use App\Models\Payment; 
 use Illuminate\Http\Request;
 use Log;
 
 
-class TableBilling implements TableInterface
+class TablePayment implements TableInterface
 {
     use Table;
 
@@ -16,7 +15,6 @@ class TableBilling implements TableInterface
     {
         return [
             'Nama',
-            'Nominal',
         ];
     }
 
@@ -25,13 +23,12 @@ class TableBilling implements TableInterface
         return [
             'id',
             'name',
-            'amount',
         ];
     }
 
     public function getData(Request $request)
     {
-        $query = Billing::orderBy('name', 'asc');
+        $query = Payment::orderBy('name', 'asc');
         
         if (trim($request->get('q')) != "") {
             $search = '%'. trim($request->get('q')) . '%'; 
@@ -45,23 +42,17 @@ class TableBilling implements TableInterface
             return [
                 'id' => $value['id'],
                 'name' => $value['name'], 
-                'amount' => number_format($value['amount'], 2),
             ];
 
         }, $data);
     }
 
-    public function delete($billingId)
+    public function delete($paymentId)
     {
-        
         try {
-            $billing = Billing::findOrFail($billingId); 
-            $billingUser = BillingUser::where('billing_id', $billing->id)->first();
-            if ($billingUser) {
-                return false;
-            }
+            $payment = Payment::findOrFail($paymentId); 
+            $payment->delete(); 
 
-            $billing->delete(); 
             return true;
         } catch(\Exception $e) {
             Log::error($e->getMessage());
@@ -73,21 +64,27 @@ class TableBilling implements TableInterface
     public function edit(Request $request, $idRecord)
     {
         $request->validate([
-            'nama' => 'required|max:100', 
-            'nominal' => 'required',
+            'nama' => 'required', 
         ]); 
 
-        $billing = Billing::findOrFail($idRecord); 
+        $payment = Payment::findOrFail($idRecord); 
 
-        $billing->name = $request->nama; 
-        $billing->amount = $request->nominal; 
+        $payment->name = $request->nama; 
 
-        $billing->save(); 
+        $payment->save(); 
+    }
 
-        BillingUser::where('billing_id', $billing->id)->update([
-            'billing_name' => $billing->name
+    public function create(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required', 
         ]); 
 
+        $payment = new Payment(); 
+
+        $payment->name = $request->nama; 
+
+        $payment->save(); 
     }
 
 }

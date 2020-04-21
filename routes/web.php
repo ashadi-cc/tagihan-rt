@@ -45,6 +45,15 @@ Route::prefix('admin')
     Route::get('/master/tagihan/edit/{billingId}', 'Admin\BillingController@edit');
     Route::put('/master/tagihan/edit/{billingId}', 'Admin\BillingController@postEdit');
 
+    //master payment
+    Route::get('/master/payment', 'Admin\PaymentController@index');
+    /** CURD */
+    Route::get('/master/payment/get', 'Admin\PaymentController@getData');
+    Route::delete('/master/payment/{paymentId}', 'Admin\PaymentController@delete');
+    Route::get('/master/payment/edit/{paymentId}', 'Admin\PaymentController@edit');
+    Route::put('/master/payment/edit/{paymentId}', 'Admin\PaymentController@postEdit');
+    Route::post('/master/payment', 'Admin\PaymentController@store');
+
     //tagihan upload dan daftar
     Route::get('/tagihan/upload', 'Admin\TagihanController@index');
     Route::post('/tagihan/upload', 'Admin\TagihanController@uploadTagihan');

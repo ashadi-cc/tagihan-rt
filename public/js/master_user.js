@@ -127,11 +127,11 @@ toastr__WEBPACK_IMPORTED_MODULE_2___default.a.options.showDuration = 300;
       });
       return records;
     },
-    errorMessage: function errorMessage() {
+    errorMessage: function errorMessage(text) {
       sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Something went wrong!'
+        text: text
       });
     },
     requestData: function requestData() {
@@ -144,7 +144,7 @@ toastr__WEBPACK_IMPORTED_MODULE_2___default.a.options.showDuration = 300;
         me.records = response.data;
       })["catch"](function (err) {
         me.loadingRecord = false;
-        me.errorMessage();
+        me.errorMessage('Server error');
       });
     },
     editUrl: function editUrl(id) {
@@ -172,10 +172,10 @@ toastr__WEBPACK_IMPORTED_MODULE_2___default.a.options.showDuration = 300;
             me.query = '';
             me.requestData();
           } else {
-            me.errorMessage();
+            me.errorMessage('Tidak bisa menghapus data ini. data dipakai di table yang lain');
           }
         })["catch"](function (err) {
-          me.errorMessage();
+          me.errorMessage('Server error');
         });
       });
     }

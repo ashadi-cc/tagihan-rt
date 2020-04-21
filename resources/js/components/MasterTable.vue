@@ -115,11 +115,11 @@ export default {
             return records
         },
 
-        errorMessage() {
+        errorMessage(text) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Something went wrong!',
+                text: text,
             })
         },
         requestData() {
@@ -134,7 +134,7 @@ export default {
                 })
                 .catch(err => {
                     me.loadingRecord = false
-                    me.errorMessage()
+                    me.errorMessage('Server error')
                 })
         },
 
@@ -162,10 +162,10 @@ export default {
                             me.query = ''
                             me.requestData()
                         } else {
-                            me.errorMessage();
+                            me.errorMessage('Tidak bisa menghapus data ini. data dipakai di table yang lain');
                         }
                     }).catch(err => {
-                        me.errorMessage()
+                        me.errorMessage('Server error')
                     })
             })
         }

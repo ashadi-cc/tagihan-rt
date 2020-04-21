@@ -11,6 +11,8 @@ class BillingImport implements ToCollection, ImportDataInterface
 {
     use ImportData;
 
+    private $billings;
+
     public function validate($row)
     {
        return $this->checkHeader([
@@ -21,6 +23,8 @@ class BillingImport implements ToCollection, ImportDataInterface
 
     public function processData(Collection $rows)
     {
+        $this->billings = Billing::get();
+
         foreach ($rows as $key => $row) 
         {
             try {
@@ -57,7 +61,10 @@ class BillingImport implements ToCollection, ImportDataInterface
             return false;
         }
 
-        $billing = Billing::where('name', 'like', $nameInput)->first(); 
+        $billing = $this->billings->first(function($value, $key) use ($nameInput) {
+            return strtolower($value->name) == strtolower($nameInput);
+        });
+
         if (!$billing) {
             $billing = Billing::create(['name' => $nameInput, 'auto_per_month' => false]); 
         }

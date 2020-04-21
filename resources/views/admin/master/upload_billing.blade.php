@@ -53,7 +53,7 @@
 
             </form>
             <hr>
-            <h4 class="small"> <a href="{{ asset('/xls-template/template_daftar_tagihan.xlsx') }}">Download contoh template</a></h4>
+            <h4 class="small"> <a href="{{ asset('/xls-template/template_daftar_iuran.xlsx') }}">Download contoh template</a></h4>
         </div>
     </div>
 @endsection

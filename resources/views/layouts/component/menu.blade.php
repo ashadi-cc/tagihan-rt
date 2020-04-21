@@ -12,7 +12,11 @@
         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
     ></a>
     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="{{ url('/admin/master/warga') }}">Daftar Warga</a><a class="nav-link" href="{{ url('/admin/master/tagihan') }}">Daftar Iuran</a></nav>
+        <nav class="sb-sidenav-menu-nested nav">
+            <a class="nav-link" href="{{ url('/admin/master/warga') }}">Daftar Warga</a>
+            <a class="nav-link" href="{{ url('/admin/master/tagihan') }}">Daftar Iuran</a>
+            <a class="nav-link" href="{{ url('/admin/master/payment') }}">Pembayaran</a>
+        </nav>
     </div>
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages"
         ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>

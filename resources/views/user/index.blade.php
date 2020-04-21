@@ -23,7 +23,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Email</label>
-                            <input type="email" class="form-control" name="email" placeholder="Email warga" value="{{ old('email') ?: $user->email }}">
+                            <input type="email" class="form-control" name="email" placeholder="Email anda" value="{{ old('email') ?: $user->email }}">
                             @error('email')
                                 <div class="text-danger">
                                     {{ $errors->first('email') }}
