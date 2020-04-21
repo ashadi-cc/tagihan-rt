@@ -42,6 +42,12 @@
                     <tr v-show="loadingRecord">
                         <td :colspan="loadingColSpan" class="text-center">Memuat data...</td>
                     </tr>
+                    <tr v-show="loadingRecord == false">
+                        <td colspan="2"><strong>Summary</strong></td>
+                        <td v-for="item in summary" :key="item.billing_id" class="summary">
+                            <span class="lunas">{{ formatAmount(item.lunas) }}</span> / <span class="belum-lunas">{{ formatAmount(item.belum) }}</span>
+                        </td>
+                    </tr>
                     <tr v-for="(item,index) in records" :key="item.id" v-show="loadingRecord == false">
                         <td>{{ index+1 }}</td>
                         <td>{{ item.blok }}</td>
@@ -51,7 +57,7 @@
                                     N/A
                                 </div>
                             </div>
-                            <status-amount-row :item="value" :baseUrl="baseUrl" v-else>
+                            <status-amount-row :item="value" :baseUrl="baseUrl" v-else @changeStatus="requestSummary()">
                             </status-amount-row>
                         </td>
                     </tr>
@@ -98,6 +104,7 @@ export default {
             headerData: '',
             loadingRecord: false,
             records: [],
+            summary: []
         };
     },
     computed: {
@@ -129,6 +136,9 @@ export default {
         }
     },
     methods: {
+        formatAmount(amount) {
+            return Numeral(amount).format('0,0')
+        },
         tableRow(row) {
             let records  = {}
             this.recordItems.forEach(element => {
@@ -147,9 +157,26 @@ export default {
                 text: 'Something went wrong!',
             })
         },
+        requestSummary() {
+            let url = `${this.baseUrl}/summary`
+            let params = {
+                params: {
+                    summary: this.headerData, 
+                    year: this.filterOption.year,
+                    month: this.filterOption.month
+                }
+            }
+            this.summary = []
+            let me = this
+            axios.get(url, params).then(result => {
+                me.summary = result.data
+            }).catch(e => {
+                me.errorMessage()
+            })
+        },
         requestData() {
             let me = this
-            let  url = `${this.baseUrl}/get`
+            let url = `${this.baseUrl}/get`
             let params = {
                 params: {
                     q: this.query, 
@@ -166,6 +193,8 @@ export default {
                     me.headerTable = response.data.headers 
                     me.headerData = response.data.columns
                     me.records = response.data.data
+
+                    me.requestSummary()
                 })
                 .catch(err => {
                     me.loadingRecord = false
@@ -192,5 +221,15 @@ export default {
      margin-top: 30px;
      border: 1px solid #ced4da;
      color: #495057;
+ }
+ .summary {
+     font-size: 12px;
+     font-weight: bold;
+ }
+ .lunas {
+     color: green;
+ }
+ .belum-lunas {
+     color: red;
  }
 </style>

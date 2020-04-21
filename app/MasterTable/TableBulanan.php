@@ -148,4 +148,39 @@ class TableBulanan implements TableInterface
         }
     }
 
+    public function summary(Request $request)
+    {
+        $year = $request->year ?:'0';
+        $month = $request->month ?:'0';
+        $billings = BillingUser::where([
+            'year' => $year,
+            'month' => $month,
+        ])->get();
+
+        $idBillings = collect(explode(',', $request->summary))->filter(function($value, $key){
+            return $value != 'blok';
+        })->map(function($value) {
+            return str_replace('b_', '', $value);
+        }); 
+
+        $data = []; 
+
+        foreach ($idBillings as $bilId) {
+            $data[] = [
+                'billing_id' => $bilId,
+                'lunas' => $this->sumByStatus($billings, $bilId, 'L'),
+                'belum' => $this->sumByStatus($billings, $bilId, 'B'),
+            ];
+        }
+
+        return $data;
+    }
+
+    private function sumByStatus($billings, $bilId, $status)
+    {
+        return $billings->filter(function($value, $key) use($bilId, $status){
+            return ($value->billing_id) == $bilId && ($value->status == $status);
+        })->sum('amount');
+    }
+
 }

@@ -108,7 +108,9 @@ class TableUser implements TableInterface
             ;
         }
 
-        $data = $query->get()->toArray();
+        $data = $query->get()->filter(function($value){
+            return $value->username != 'admin';
+        })->all();
 
         return array_map(function($value)
         {

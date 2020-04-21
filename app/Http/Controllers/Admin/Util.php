@@ -40,6 +40,19 @@ trait Util
         ];
     }
 
+    private function getMonthName($month)
+    {
+        $months = collect($this->getMonth()); 
+
+        $found = $months->first(function($value) use ($month) {
+            return $value['value'] == $month;
+        });
+
+        if ($found) return $found['text']; 
+
+        return '';
+    }
+
     private function getMonth()
     {
         $months = [

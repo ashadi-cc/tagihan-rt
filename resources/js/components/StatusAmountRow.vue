@@ -75,6 +75,7 @@ export default {
                 if (result.data.success) {
                     me.status = status
                     Toastr.success("updated")
+                    me.$emit('changeStatus', status)
                 } else {
                     me.errorMessage()
                 }

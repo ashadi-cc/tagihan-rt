@@ -15,6 +15,7 @@ Auth::routes();
 
 //root page
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/other', 'HomeController@getOtherBill');
 
 /** User */
 Route::get('/user/password', 'UserController@index'); 
@@ -67,5 +68,6 @@ Route::prefix('admin')
     Route::get('/tagihan/bulanan', 'Admin\TagihanBulanan@index');
     Route::get('/tagihan/bulanan/get', 'Admin\TagihanBulanan@getData');
     Route::put('/tagihan/bulanan/{idRecord}', 'Admin\TagihanBulanan@edit');
+    Route::get('/tagihan/bulanan/summary', 'Admin\TagihanBulanan@summary');
 
 });
