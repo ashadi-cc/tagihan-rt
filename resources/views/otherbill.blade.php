@@ -10,7 +10,7 @@
     <tbody>
         @foreach($data as $item)
         <tr>
-            <td>{{ $item->billing_name }} ({{ $item->month}}/{{$item->year}})</td>
+            <td>{{ $item->billing_name }} ({{ $item->monthName}}/{{$item->year}})</td>
             <td>
                 <span class="badge badge-danger">
                     {{ number_format($item->amount, 2) }}

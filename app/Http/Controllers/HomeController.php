@@ -77,6 +77,10 @@ class HomeController extends Controller
 
         $otherBill = $otherBill->filter(function($value) {
             return $value->year == request('year') && $value->month == request('month') ? false : true;
+        })->map(function($value) {
+            $value->monthName =  $this->getMonthName($value->month);
+            
+            return $value;
         });
 
         $total = number_format($otherBill->sum('amount'), 2);
