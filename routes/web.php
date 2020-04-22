@@ -11,6 +11,10 @@
 |
 */
 
+if (config('default.proxy_schema')) {
+    URL::forceScheme(config('default.proxy_schema'));
+}
+
 Auth::routes();
 
 //root page
