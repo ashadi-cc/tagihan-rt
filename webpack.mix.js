@@ -15,5 +15,5 @@ mix.js('resources/js/master_user.js', 'public/js')
     .js('resources/js/master_tagihan.js', 'public/js')
     .js('resources/js/master_billing.js', 'public/js')
     .js('resources/js/master_bulanan.js', 'public/js')
-    .extract(['axios', 'vue', 'numeral'])
+    .extract(['axios', 'vue', 'numeral', 'sweetalert2', 'lodash', 'toastr'])
     .sass('resources/sass/main.scss', 'public/css');

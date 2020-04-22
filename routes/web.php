@@ -11,9 +11,9 @@
 |
 */
 
-if (config('default.proxy_schema')) {
-    URL::forceScheme(config('default.proxy_schema'));
-}
+// if (config('default.proxy_schema')) {
+//     URL::forceScheme(config('default.proxy_schema'));
+// }
 
 Auth::routes();
 

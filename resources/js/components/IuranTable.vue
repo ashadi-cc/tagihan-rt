@@ -6,9 +6,9 @@
                 <div class="form-inline md-form form-sm">
                     <input class="form-control mr-3 w-75" type="text" :placeholder="searchPlaceholder" v-model="query"
                         aria-label="Search">
-                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <i class="fa fa-search" aria-hidden="true"></i>
                     <a href="#" title="clear filter" @click.prevent="query = ''">
-                        <i class="fas fa-window-close trash-margin" aria-hidden="true"></i>
+                        <i class="fa fa-close trash-margin" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>

@@ -10,7 +10,7 @@
                     <i class="fa fa-check"></i>
                 </span>
                 <span class="input-group-text link-btn" @click="editMode = false">
-                    <i class="fa fa-window-close"></i>
+                    <i class="fa fa-close"></i>
                 </span>
             </div>
         </div>

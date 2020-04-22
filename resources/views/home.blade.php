@@ -11,7 +11,7 @@
     </div>
     @endif
     <div class="card mb-4">
-        <div class="card-header bg-success text-white"><i class="fas fa-table mr-1"></i>
+        <div class="card-header bg-success text-white"><i class="fa fa-table mr-1"></i>
             Bulan {{ $monthName }} Tahun {{ $filter['year'] }}
         </div>
         <div class="card-body">
@@ -33,7 +33,7 @@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary mb-2">Cari</button>
-                        <a href="{{ url('/?year='. date('Y') . '&month='. date('n')) }}" class="btn btn-danger mb-2" style="margin-left:5px">Reset</a>
+                        <a href="{{ url('/') }}" class="btn btn-danger mb-2" style="margin-left:5px">Reset</a>
                     </form>
                     <div class="table-responsive">
                         <table class="table">
@@ -90,7 +90,7 @@
             </div>
 
         </div>
-        <div class="card-header bg-info text-white"><i class="fas fa-wallet mr-1"></i>
+        <div class="card-header bg-info text-white"><i class="fa fa-credit-card mr-1"></i>
            Pembayaran bisa melalui
         </div>
         <div class="card-body">
