@@ -152,10 +152,16 @@ class TableBulanan implements TableInterface
     {
         $year = $request->year ?:'0';
         $month = $request->month ?:'0';
-        $billings = BillingUser::where([
+        $query = $billings = BillingUser::where([
             'year' => $year,
             'month' => $month,
-        ])->get();
+        ]); 
+
+        if (trim($request->q)) {
+            $query->where('user_blok', 'like', '%'. $request->q . '%');
+        }
+
+        $billings = $query->get();
 
         $idBillings = collect(explode(',', $request->summary))->filter(function($value, $key){
             return $value != 'blok';

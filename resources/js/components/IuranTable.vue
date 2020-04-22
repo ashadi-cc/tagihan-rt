@@ -161,6 +161,7 @@ export default {
             let url = `${this.baseUrl}/summary`
             let params = {
                 params: {
+                    q: this.query, 
                     summary: this.headerData, 
                     year: this.filterOption.year,
                     month: this.filterOption.month
