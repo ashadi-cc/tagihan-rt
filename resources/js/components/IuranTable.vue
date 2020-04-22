@@ -28,6 +28,13 @@
         <div class="text-center empty-data" v-show="emptyData">
             Data Iuran tidak ada
         </div>
+        <div v-show="loadingRecord" class="loading-data">
+            <div class="text-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
         <div class="table-responsive" v-show="emptyData == false">
             <table class="table">
                 <thead>
@@ -39,9 +46,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-show="loadingRecord">
-                        <td :colspan="loadingColSpan" class="text-center">Memuat data...</td>
-                    </tr>
                     <tr v-show="loadingRecord == false">
                         <td colspan="2"><strong>Summary</strong></td>
                         <td v-for="item in summary" :key="item.billing_id" class="summary">
@@ -222,6 +226,9 @@ export default {
      margin-top: 30px;
      border: 1px solid #ced4da;
      color: #495057;
+ }
+ .loading-data {
+     padding: 10px;
  }
  .summary {
      font-size: 12px;
