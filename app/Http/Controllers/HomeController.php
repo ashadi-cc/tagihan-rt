@@ -36,6 +36,7 @@ class HomeController extends Controller
             'year' => $filter['year'],
             'month' => $filter['month'],
             'user_id' => auth()->user()->id,
+            'status' => 'B',
         ])->orderBy('billing_name')->get(); 
 
         $permonth = $permonth->filter(function($value) {
@@ -53,15 +54,15 @@ class HomeController extends Controller
             return $value->status == 'Belum Lunas';
         })->sum('amount'),2); 
 
-        $lunas = number_format($permonth->filter(function($value){
-            return $value->status == 'Lunas';
-        })->sum('amount'),2);
+        // $lunas = number_format($permonth->filter(function($value){
+        //     return $value->status == 'Lunas';
+        // })->sum('amount'),2);
 
         return view('home', [
             'filter' => $filter, 
             'monthName' => $monthName,
             'perMonth' => $permonth,
-            'lunas' => $lunas,
+            //'lunas' => $lunas,
             'belumLunas' => $belumLunas,
             'payments' => Payment::all(),
         ]);
