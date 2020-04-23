@@ -22,7 +22,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Nama Iuran</th>
+                            <th>Iuran</th>
                             <th>Nominal</th>
                         </tr>
                     </thead>
@@ -58,9 +58,7 @@
             </div>
         </div>
 
-        <div id="other-bill">
-        
-        </div>
+        @include('otherbill')
 
         <div class="card-header bg-info text-white"><i class="fa fa-credit-card mr-1"></i>
            Pembayaran bisa melalui
@@ -76,9 +74,3 @@
 
 @endsection
 
-@section('scripts')
-<script>
-    var url = "{!! url('/other/?year='. $filter['year'] . '&month='. $filter['month']) !!}";
-    $('#other-bill').load(url);
-</script>
-@endsection
