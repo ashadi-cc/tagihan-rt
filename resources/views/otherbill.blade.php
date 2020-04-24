@@ -8,7 +8,7 @@
             <thead>
                 <tr>
                     <th>Iuran</th>
-                    <th>Nomimal</th>
+                    <th>Nominal</th>
                 </tr>
             </thead>
             <tbody>
