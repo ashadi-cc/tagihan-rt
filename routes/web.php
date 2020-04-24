@@ -19,7 +19,6 @@ Auth::routes();
 
 //root page
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/other', 'HomeController@getOtherBill');
 
 /** User */
 Route::get('/user/password', 'UserController@index'); 

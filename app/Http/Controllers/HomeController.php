@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\Util; 
 use App\Models\BillingUser;
 use App\Models\Payment;
+use DB;
 
 class HomeController extends Controller
 {
@@ -54,25 +55,26 @@ class HomeController extends Controller
             return $value->status == 'Belum Lunas';
         })->sum('amount'),2); 
 
-        // $lunas = number_format($permonth->filter(function($value){
-        //     return $value->status == 'Lunas';
-        // })->sum('amount'),2);
 
-        $otherBill = BillingUser::where([
-            'user_id' => auth()->user()->id,
-            'status' => 'B'
-        ])->orderBy('year', 'desc')->orderBy('month', 'desc')->get();
+        $otherBill = DB::table('billing_users')->select(DB::raw('billing_name, year, month, sum(amount) as amount'))
+            ->where([
+                'user_id' => auth()->user()->id, 
+                'status' => 'B'
+            ])
+            ->groupBy('billing_name')
+            ->groupBy('year')
+            ->groupBy('month')
+            ->get(); 
+
 
         $otherBill = $otherBill->filter(function($value) use ($filter) {
             return $value->year == $filter['year'] && $value->month == $filter['month'] ? false : true;
-        })->map(function($value) {
-            $value->monthName =  $this->getMonthName($value->month);
-            
-            return $value;
-        });
+        })->groupBy('billing_name')
+        ->map(function($value, $key){
+            return ['amount' => $value->sum('amount')];
+        }); 
 
         $total = number_format($otherBill->sum('amount'), 2);
-
 
         return view('home', [
             'filter' => $filter, 
@@ -81,30 +83,6 @@ class HomeController extends Controller
             //'lunas' => $lunas,
             'belumLunas' => $belumLunas,
             'payments' => Payment::all(),
-            'data' => $otherBill,
-            'total' => $total,
-        ]);
-
-    }
-
-    public function getOtherBill()
-    {
-        $otherBill = BillingUser::where([
-            'user_id' => auth()->user()->id,
-            'status' => 'B'
-        ])->get();
-
-        $otherBill = $otherBill->filter(function($value) {
-            return $value->year == request('year') && $value->month == request('month') ? false : true;
-        })->map(function($value) {
-            $value->monthName =  $this->getMonthName($value->month);
-            
-            return $value;
-        });
-
-        $total = number_format($otherBill->sum('amount'), 2);
-
-        return view('otherbill', [
             'data' => $otherBill,
             'total' => $total,
         ]);
