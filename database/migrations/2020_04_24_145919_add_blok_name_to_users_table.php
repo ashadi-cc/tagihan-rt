@@ -15,7 +15,7 @@ class AddBlokNameToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('blok_name', 10)->default('')->index(); 
-            $table->integer('blok_number')->unsigned()->index(); 
+            $table->integer('blok_number')->unsigned()->default(0)->index(); 
         });
     }
 
