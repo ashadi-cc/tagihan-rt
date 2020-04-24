@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'blok', 'default_password'
+        'name', 'email', 'password', 'username', 'blok', 'default_password', 'blok_name', 'blok_number',
     ];
 
     /**
@@ -56,7 +56,14 @@ class User extends Authenticatable
 
     public function setBlokAttribute($value)
     {
-        $this->attributes['blok'] = strtoupper($value);
+        $blok =  strtoupper($value);
+        $this->attributes['blok'] = $blok;
+
+        $splitBlok = explode('-', $blok); 
+        if (count($splitBlok) == 2) {
+            $this->attributes['blok_name'] = $splitBlok[0];
+            $this->attributes['blok_number'] = $splitBlok[1];
+        }
     }
 
     public function scopeWarga($query)

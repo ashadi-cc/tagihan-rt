@@ -28,7 +28,10 @@ class TableTagihan implements TableInterface
             'billing_id' => $request->billing_id,
             'month' => $request->month, 
             'year' => $request->year,
-        ])->orderBy('user_id', 'asc');
+        ])
+        ->join('users', 'users.id', '=', 'billing_users.user_id')
+        ->orderBy('users.blok_name')
+        ->orderBy('users.blok_number');
 
         if (trim($request->get('q')) != "") {
             $search = '%'. trim($request->get('q')) . '%'; 

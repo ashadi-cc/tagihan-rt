@@ -77,11 +77,11 @@ class UserImport implements ToCollection, ImportDataInterface
         if (!$user) {
             $user = new User();
             $user->username = $usernameInput; 
-            $user->blok = $blokInput; 
             $user->default_password = $this->generateRandomString();
             $user->password = Hash::make($user->default_password);
         }
         
+        $user->blok = $blokInput; 
         $user->name = $namaInput;
         $user->email = $emailInput; 
 

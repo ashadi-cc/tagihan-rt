@@ -107,7 +107,10 @@ class TableBulanan implements TableInterface
         $query = BillingUser::where([
             'year' => $year,
             'month' => $month,
-        ])->orderBy('user_id');
+        ])
+        ->join('users', 'users.id', '=', 'billing_users.user_id')
+        ->orderBy('users.blok_name')
+        ->orderBy('users.blok_number');
 
         if (trim($request->q)) {
             $query->where('user_blok', 'like', '%'. $request->q . '%');

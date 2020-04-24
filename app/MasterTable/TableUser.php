@@ -99,7 +99,8 @@ class TableUser implements TableInterface
     public function getData(Request $request)
     {
         $query = User::warga()->with('roles')
-            ->orderBy('id', 'asc');
+            ->orderBy('blok_name')
+            ->orderBy('blok_number');
         
         if (trim($request->get('q')) != "") {
             $search = '%'. trim($request->get('q')) . '%'; 
