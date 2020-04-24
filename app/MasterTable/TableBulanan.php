@@ -113,7 +113,13 @@ class TableBulanan implements TableInterface
         ->orderBy('users.blok_number');
 
         if (trim($request->q)) {
-            $query->where('user_blok', 'like', '%'. $request->q . '%');
+            $search = '%'. trim($request->get('q')) . '%'; 
+            $query->where(function($q) use ($search) {
+                $q->where('users.blok', 'like', $search)
+                ->orWhere('users.username', 'like', $search)
+                ;
+            });
+            //$query->where('user_blok', 'like', '%'. $request->q . '%');
         }
 
         $this->masterBilling = $query->get();

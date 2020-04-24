@@ -104,9 +104,12 @@ class TableUser implements TableInterface
         
         if (trim($request->get('q')) != "") {
             $search = '%'. trim($request->get('q')) . '%'; 
-            $query->where('blok', 'like', $search)
+            $query->where(function($q) use ($search) {
+                $q->where('blok', 'like', $search)
+                ->orWhere('username', 'like', $search)
                 ->orWhere('name', 'like', $search)
-            ;
+                ;
+            });
         }
 
         $data = $query->get()->filter(function($value){

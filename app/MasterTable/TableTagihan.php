@@ -35,7 +35,11 @@ class TableTagihan implements TableInterface
 
         if (trim($request->get('q')) != "") {
             $search = '%'. trim($request->get('q')) . '%'; 
-            $query->where('user_blok', 'like', $search);
+            $query->where(function($q) use ($search) {
+                $q->where('users.blok', 'like', $search)
+                ->orWhere('users.username', 'like', $search)
+                ;
+            });
         }
 
         return $query->get(); 
