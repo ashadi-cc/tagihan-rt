@@ -25,8 +25,8 @@
                                         <form method="POST" action="{{ route('login') }}">
                                             @csrf
                                             <div class="form-group">
-                                                <label class="small mb-1" for="inputEmailAddress">Blok Rumah (Misal k1) * huruf kecil semua</label>
-                                                <input class="form-control py-4 @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus id="inputEmailAddress" placeholder="Masukkan blok rumah" />
+                                                <label class="small mb-1" for="username">Blok Rumah (Misal k1) * huruf kecil semua</label>
+                                                <input class="form-control py-4 @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus id="username" placeholder="Masukkan blok rumah" />
                                                 @error('username')
                                                     <div class="alert alert-danger" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -71,8 +71,16 @@
                 </footer>
             </div> -->
         </div>
-        <!-- <script src="{{ asset('js/jquery-3.4.1.min.js') }}" ></script>
-        <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('js/jquery-3.4.1.min.js') }}" ></script>
+        <!-- <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('dist/js/scripts.js') }}"></script> -->
+        <script>
+            $('#username').change(function() {
+                if ($(this).val()) {
+                    var val = $(this).val().toLowerCase(); 
+                    $(this).val(val);
+                }
+            })
+        </script>
     </body>
 </html>
