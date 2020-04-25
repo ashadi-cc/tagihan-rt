@@ -108,18 +108,10 @@ class TableBulanan implements TableInterface
             'year' => $year,
             'month' => $month,
         ])
-        ->join('users', 'users.id', '=', 'billing_users.user_id')
-        ->orderBy('users.blok_name')
-        ->orderBy('users.blok_number');
+        ->orderBy('id');
 
         if (trim($request->q)) {
-            $search = '%'. trim($request->get('q')) . '%'; 
-            $query->where(function($q) use ($search) {
-                $q->where('users.blok', 'like', $search)
-                ->orWhere('users.username', 'like', $search)
-                ;
-            });
-            //$query->where('user_blok', 'like', '%'. $request->q . '%');
+            $query->where('user_blok', 'like', '%'. $request->q . '%');
         }
 
         $this->masterBilling = $query->get();
