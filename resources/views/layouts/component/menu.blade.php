@@ -24,7 +24,7 @@
         <div class="sb-sidenav-collapse-arrow"><i class="fa fa-angle-down"></i></div
     ></a>
     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="{{ url('/admin/tagihan/bulanan') }}">Iuran Bulanan</a><a class="nav-link" href="/admin/tagihan/upload">Upload Iuran</a></nav>
+        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="{{ url('/admin/tagihan/bulanan') }}">Rekap Per bulan</a><a class="nav-link" href="/admin/tagihan/upload">Upload Iuran</a></nav>
     </div>
     @endrole
 </div>
