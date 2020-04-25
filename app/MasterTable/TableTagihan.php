@@ -29,7 +29,7 @@ class TableTagihan implements TableInterface
             'month' => $request->month, 
             'year' => $request->year,
         ])
-        ->orderBy('id');
+        ->orderBy('blok_name')->orderBy('blok_number');
 
         if (trim($request->get('q')) != "") {
             $query->where('user_blok', 'like', '%'. $request->q . '%');
@@ -64,6 +64,9 @@ class TableTagihan implements TableInterface
             if ($request->status) {
                 $billing->status = $request->status; 
             }
+
+            $billing->changed_by = 'user'; 
+            $billing->changed_user_id = auth()->user()->id;
 
             $billing->save(); 
 

@@ -19,6 +19,7 @@ class BillingUserImport implements ToCollection, ImportDataInterface
     private $users;
     private $billings;
     private $billing;
+    private $currentUser;
 
     private function setMaster()
     {
@@ -30,6 +31,8 @@ class BillingUserImport implements ToCollection, ImportDataInterface
             'month' => $this->month, 
             'year' => $this->year,
         ])->get(); 
+
+        $this->currentUser = auth()->user();
     }
 
     public function __construct($month, $year, $billingId)
@@ -95,7 +98,7 @@ class BillingUserImport implements ToCollection, ImportDataInterface
         });
 
         if (!$foundUser) {
-            throw new \Exception('user not found');
+            throw new \Exception('user not found '. $blokInput);
         }
 
         $billingUser = $this->billings->first(function($value, $key) use ($foundUser) {
@@ -114,6 +117,12 @@ class BillingUserImport implements ToCollection, ImportDataInterface
         $billingUser->year = $this->year; 
         $billingUser->amount = $amountInput; 
         $billingUser->status = $statusInput;
+        $billingUser->blok_name = $foundUser->blok_name;
+        $billingUser->blok_number = $foundUser->blok_number; 
+        
+        $billingUser->changed_by = 'user'; 
+        $billingUser->changed_user_id = $this->currentUser->id; 
+
         /**Save billing */
         $billingUser->save();
 

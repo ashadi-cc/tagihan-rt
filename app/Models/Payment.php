@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'qr_code'];
 }

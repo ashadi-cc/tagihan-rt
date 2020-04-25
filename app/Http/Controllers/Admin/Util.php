@@ -37,6 +37,7 @@ trait Util
             'year' => $endYear,
             'months' => $this->getMonth(),
             'month' => $currentMonth,
+            'monthName' => $this->getMonthName($currentMonth)
         ];
     }
 

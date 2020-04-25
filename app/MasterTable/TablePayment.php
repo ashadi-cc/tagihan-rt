@@ -15,6 +15,7 @@ class TablePayment implements TableInterface
     {
         return [
             'Nama',
+            'QR Code',
         ];
     }
 
@@ -23,6 +24,7 @@ class TablePayment implements TableInterface
         return [
             'id',
             'name',
+            'qr_code',
         ];
     }
 
@@ -42,6 +44,7 @@ class TablePayment implements TableInterface
             return [
                 'id' => $value['id'],
                 'name' => $value['name'], 
+                'qr_code' => $value['qr_code'] ? 'Yes': 'No',
             ];
 
         }, $data);
@@ -63,28 +66,54 @@ class TablePayment implements TableInterface
 
     public function edit(Request $request, $idRecord)
     {
-        $request->validate([
+        $validate = [
             'nama' => 'required', 
-        ]); 
+        ];
+        
+        if ($request->has('qr_code')) {
+            $validate['qr_code'] =  'required|file|image|mimes:jpeg,png,gif,webp|max:2048'; 
+        }
+
+        $request->validate($validate);
 
         $payment = Payment::findOrFail($idRecord); 
 
         $payment->name = $request->nama; 
 
         $payment->save(); 
+
+        $image = $request->file('qr_code'); 
+        if ($image) {
+            $imageName = 'qrcode-'. $payment->id . '.'. $image->getClientOriginalExtension();
+            $payment->qr_code = $imageName; 
+            $image->move(public_path('qr-payment'), $imageName);
+            $payment->save();
+        }
     }
 
     public function create(Request $request)
     {
-        $request->validate([
+        $validate = [
             'nama' => 'required', 
-        ]); 
+        ];
+        
+        if ($request->has('qr_code')) {
+            $validate['qr_code'] =  'required|file|image|mimes:jpeg,png,gif,webp|max:2048'; 
+        }
 
         $payment = new Payment(); 
 
         $payment->name = $request->nama; 
 
         $payment->save(); 
+
+        $image = $request->file('qr_code'); 
+        if ($image) {
+            $imageName = 'qrcode-'. $payment->id . '.'. $image->getClientOriginalExtension();
+            $payment->qr_code = $imageName; 
+            $image->move(public_path('qr-payment'), $imageName);
+            $payment->save();
+        }
     }
 
 }

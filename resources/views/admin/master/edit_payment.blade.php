@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <h5>Edit Daftar Pembayaran</h5>
-                    <form action="{{ url('admin/master/payment/edit/' . $payment->id) }}" method="POST">
+                    <form action="{{ url('admin/master/payment/edit/' . $payment->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         {{ method_field('PUT') }}
                         <div class="form-group">
@@ -20,6 +20,17 @@
                             @error('nama')
                                 <div class="text-danger">
                                     {{ $errors->first('nama') }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="">QR CODE</label>
+                            </div>
+                            <input id="" name="qr_code" type="file" class="file" data-show-preview="false">
+                            @error('qr_code')
+                                <div class="text-danger">
+                                    {{ $errors->first('qr_code') }}
                                 </div>
                             @enderror
                         </div>

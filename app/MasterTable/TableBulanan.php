@@ -3,13 +3,15 @@
 namespace App\MasterTable; 
 
 use App\Models\BillingUser; 
+use App\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\Util;
 use Log;
 
 
 class TableBulanan implements TableInterface
 {
-    use Table;
+    use Table, Util;
 
     private $masterBilling; 
     private $users; 
@@ -108,7 +110,7 @@ class TableBulanan implements TableInterface
             'year' => $year,
             'month' => $month,
         ])
-        ->orderBy('id');
+        ->orderBy('blok_name')->orderBy('blok_number');
 
         if (trim($request->q)) {
             $query->where('user_blok', 'like', '%'. $request->q . '%');
@@ -138,6 +140,9 @@ class TableBulanan implements TableInterface
             if ($request->status) {
                 $billing->status = $request->status; 
             }
+
+            $billing->changed_by = 'user'; 
+            $billing->changed_user_id = auth()->user()->id;
 
             $billing->save(); 
 
@@ -181,6 +186,45 @@ class TableBulanan implements TableInterface
         }
 
         return $data;
+    }
+
+    public function getTagihanByUser(Request $request)
+    {
+        $user = User::where('blok', $request->blok)->first(); 
+
+        if (!$user) {
+            throw new \Exception('user not found ', $request->blok); 
+        }
+
+        $year   = intval(date('Y'));
+        $month  = intval(date('n'));
+
+        $billings = $user->billings()->orderBy('year', 'desc')->orderBy('month', 'desc')->get();
+
+        $userDisplay =  [
+            'id' => $user->id, 
+            'blok' => $user->blok, 
+            'name' => $user->name, 
+        ];
+
+        $otherBill = [];
+        $thisMonth = [];
+
+        foreach($billings as $value) {
+            $value->month_name = $this->getMonthName($value->month); 
+            if (($value->month == $month) && ($value->year == $year)) {
+                $thisMonth[] = $value;
+            } else {
+                $otherBill[] = $value;
+            }
+        }
+
+        return [
+            'user' => $userDisplay,
+            'thisMonth' => $thisMonth,
+            'otherMonth' => $otherBill,
+            'currentMonth' => $this->getMonthName($month),
+        ];
     }
 
     private function sumByStatus($billings, $bilId, $status)

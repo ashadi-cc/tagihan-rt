@@ -48,4 +48,11 @@ class TagihanBulanan extends Controller
         return $data;
     }
 
+    public function byUser(Request $request)
+    {
+        $table = TableBulanan::NewTable(); 
+        
+        return $table->getTagihanByUser($request);
+    }
+
 }
