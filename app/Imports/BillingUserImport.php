@@ -117,7 +117,9 @@ class BillingUserImport implements ToCollection, ImportDataInterface
         $billingUser->year = $this->year; 
         $billingUser->amount = $amountInput; 
         $billingUser->status = $statusInput;
-
+        $billingUser->blok_name = $foundUser->blok_name;
+        $billingUser->blok_number = $foundUser->blok_number; 
+        
         $billingUser->changed_by = 'user'; 
         $billingUser->changed_user_id = $this->currentUser->id; 
 

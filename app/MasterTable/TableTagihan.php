@@ -29,17 +29,10 @@ class TableTagihan implements TableInterface
             'month' => $request->month, 
             'year' => $request->year,
         ])
-        ->join('users', 'users.id', '=', 'billing_users.user_id')
-        ->orderBy('users.blok_name')
-        ->orderBy('users.blok_number');
+        ->orderBy('blok_name')->orderBy('blok_number');
 
         if (trim($request->get('q')) != "") {
-            $search = '%'. trim($request->get('q')) . '%'; 
-            $query->where(function($q) use ($search) {
-                $q->where('users.blok', 'like', $search)
-                ->orWhere('users.username', 'like', $search)
-                ;
-            });
+            $query->where('user_blok', 'like', '%'. $request->q . '%');
         }
 
         return $query->get(); 

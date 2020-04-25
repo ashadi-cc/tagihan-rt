@@ -3,14 +3,15 @@
 namespace App\MasterTable; 
 
 use App\Models\BillingUser; 
-use App\Models\User;
+use App\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\Util;
 use Log;
 
 
 class TableBulanan implements TableInterface
 {
-    use Table;
+    use Table, Util;
 
     private $masterBilling; 
     private $users; 
@@ -109,7 +110,7 @@ class TableBulanan implements TableInterface
             'year' => $year,
             'month' => $month,
         ])
-        ->orderBy('id');
+        ->orderBy('blok_name')->orderBy('blok_number');
 
         if (trim($request->q)) {
             $query->where('user_blok', 'like', '%'. $request->q . '%');
@@ -195,22 +196,34 @@ class TableBulanan implements TableInterface
             throw new \Exception('user not found ', $request->blok); 
         }
 
-        $year   = $request->year ?: '0'; 
-        $month  = $request->month ?: '0'; 
+        $year   = intval(date('Y'));
+        $month  = intval(date('n'));
 
-        $billings = $user->billings()->orderBy('year')->orderBy('month')->get(); 
+        $billings = $user->billings()->orderBy('year', 'desc')->orderBy('month', 'desc')->get();
 
-        $thisMonth = $billings->filter(function($value) use ($year, $month) {
-            return $value->month == $month && $value->year == $year;
-        });
+        $userDisplay =  [
+            'id' => $user->id, 
+            'blok' => $user->blok, 
+            'name' => $user->name, 
+        ];
 
-        $otherBill = $billings->filter(function($value) use ($year, $month) {
-            return $value->month == $month && $value->year == $year ? false : true;
-        });
+        $otherBill = [];
+        $thisMonth = [];
+
+        foreach($billings as $value) {
+            $value->month_name = $this->getMonthName($value->month); 
+            if (($value->month == $month) && ($value->year == $year)) {
+                $thisMonth[] = $value;
+            } else {
+                $otherBill[] = $value;
+            }
+        }
 
         return [
+            'user' => $userDisplay,
             'thisMonth' => $thisMonth,
             'otherMonth' => $otherBill,
+            'currentMonth' => $this->getMonthName($month),
         ];
     }
 

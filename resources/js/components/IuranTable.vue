@@ -76,7 +76,13 @@
 
         </div>
         <div v-show="editMode">
-            
+            <detail-user 
+                :baseUrl="baseUrl"
+                :blok="blok"
+                :year="filterOption.year"
+                :month="filterOption.month"
+                :shouldChange="shouldChange"
+            />
             <hr>
             <a href="#" class="btn btn-danger" @click.prevent="backToBilling()">Kembali ke daftar Iuran</a>
         </div>
@@ -88,6 +94,7 @@ import Swal from 'sweetalert2'
 import _ from 'lodash'
 import Toastr from 'toastr'
 import StatusAmountRow from './StatusAmountRow'
+import DetailUser from './DetailUser'
 
 Toastr.options.positionClass = "toast-bottom-right"
 Toastr.options.closeButton = true
@@ -96,7 +103,8 @@ Toastr.options.showDuration = 300
 
 export default {
     components: {
-        StatusAmountRow
+        StatusAmountRow,
+        DetailUser
     },
     props: {
         searchPlaceholder: {
@@ -120,7 +128,9 @@ export default {
             loadingRecord: false,
             records: [],
             summary: [],
+            blok: '',
             editMode: false,
+            shouldChange: true,
         };
     },
     computed: {
@@ -138,6 +148,7 @@ export default {
         }
     },
     mounted() {
+
     },
     created() {
         this.debounceGetData = _.debounce(this.requestData, 500)
@@ -195,6 +206,8 @@ export default {
         },
         getDetail(blok) {
             this.editMode = true
+            this.blok = blok
+            this.shouldChange = !this.shouldChange
         },
         backToBilling(){
             this.editMode = false 
