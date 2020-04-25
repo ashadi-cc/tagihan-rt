@@ -25,13 +25,24 @@
                 <div class="col-md-12">
                     <hr>
                     <h4>Tambah Pembayaran</h4>
-                    <form action="{{ url('admin/master/payment') }}" method="POST">
+                    <form action="{{ url('admin/master/payment') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <input type="text" class="form-control" name="nama" placeholder="Nama Pembayaran" value="{{ old('nama') }}">
                             @error('nama')
                                 <div class="text-danger">
                                     {{ $errors->first('nama') }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="">QR CODE</label>
+                            </div>
+                            <input id="" name="qr_code" type="file" class="file" data-show-preview="false">
+                            @error('qr_code')
+                                <div class="text-danger">
+                                    {{ $errors->first('qr_code') }}
                                 </div>
                             @enderror
                         </div>

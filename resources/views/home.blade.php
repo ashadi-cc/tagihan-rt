@@ -64,11 +64,26 @@
            Pembayaran bisa melalui
         </div>
         <div class="card-body">
-            <ul>
-                @foreach($payments as $p)
-                    <li>{{ $p->name }}</li>
-                @endforeach
-            </ul>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-borderless">
+                        @foreach($payments as $p)
+                            <td class="">
+                                <div>
+                                <strong>{{ $p->name }}</strong>
+                                </div>
+                                @if ($p->qr_code)
+                                <div>
+                                <img src="{{ url('qr-payment/'. $p->qr_code) }}" alt="" class="img-fluid">
+                                </div>
+                                @endif
+                            </td>
+                        </tr>
+
+                        @endforeach
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 

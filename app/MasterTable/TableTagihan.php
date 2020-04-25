@@ -72,6 +72,9 @@ class TableTagihan implements TableInterface
                 $billing->status = $request->status; 
             }
 
+            $billing->changed_by = 'user'; 
+            $billing->changed_user_id = auth()->user()->id;
+
             $billing->save(); 
 
             return true; 

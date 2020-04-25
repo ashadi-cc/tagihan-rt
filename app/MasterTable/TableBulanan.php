@@ -3,6 +3,7 @@
 namespace App\MasterTable; 
 
 use App\Models\BillingUser; 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Log;
 
@@ -108,18 +109,10 @@ class TableBulanan implements TableInterface
             'year' => $year,
             'month' => $month,
         ])
-        ->join('users', 'users.id', '=', 'billing_users.user_id')
-        ->orderBy('users.blok_name')
-        ->orderBy('users.blok_number');
+        ->orderBy('id');
 
         if (trim($request->q)) {
-            $search = '%'. trim($request->get('q')) . '%'; 
-            $query->where(function($q) use ($search) {
-                $q->where('users.blok', 'like', $search)
-                ->orWhere('users.username', 'like', $search)
-                ;
-            });
-            //$query->where('user_blok', 'like', '%'. $request->q . '%');
+            $query->where('user_blok', 'like', '%'. $request->q . '%');
         }
 
         $this->masterBilling = $query->get();
@@ -146,6 +139,9 @@ class TableBulanan implements TableInterface
             if ($request->status) {
                 $billing->status = $request->status; 
             }
+
+            $billing->changed_by = 'user'; 
+            $billing->changed_user_id = auth()->user()->id;
 
             $billing->save(); 
 
@@ -189,6 +185,33 @@ class TableBulanan implements TableInterface
         }
 
         return $data;
+    }
+
+    public function getTagihanByUser(Request $request)
+    {
+        $user = User::where('blok', $request->blok)->first(); 
+
+        if (!$user) {
+            throw new \Exception('user not found ', $request->blok); 
+        }
+
+        $year   = $request->year ?: '0'; 
+        $month  = $request->month ?: '0'; 
+
+        $billings = $user->billings()->orderBy('year')->orderBy('month')->get(); 
+
+        $thisMonth = $billings->filter(function($value) use ($year, $month) {
+            return $value->month == $month && $value->year == $year;
+        });
+
+        $otherBill = $billings->filter(function($value) use ($year, $month) {
+            return $value->month == $month && $value->year == $year ? false : true;
+        });
+
+        return [
+            'thisMonth' => $thisMonth,
+            'otherMonth' => $otherBill,
+        ];
     }
 
     private function sumByStatus($billings, $bilId, $status)

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <form-filter :formFilter="options"  @changeFilter="changeFilterOption($event)"/>
-        <iuran-table :baseUrl="baseUrl" searchPlaceholder="cari blok..." :filterOption="filterOptions" />
+        <form-filter :formFilter="options"  @changeFilter="changeFilterOption($event)" v-show="!editMode"/>
+        <iuran-table :baseUrl="baseUrl" searchPlaceholder="cari blok..." :filterOption="filterOptions" @getDetail="editMode = $event" />
     </div>
 </template>
 <script>
@@ -16,7 +16,8 @@ export default {
     props:['baseUrl', 'options'],
     data() {
         return {
-            filterOptions: {}
+            filterOptions: {},
+            editMode: false,
         }
     },
     methods: {
