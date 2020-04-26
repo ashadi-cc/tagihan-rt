@@ -19,7 +19,7 @@
             </div>
             <hr>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 table-responsive">
                     <h5>Tagihan Bulan Sekarang ({{ this.currentMonth }}) </h5>
                     <table class="table">
                         <thead>
@@ -30,21 +30,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in thisMonth" :key="item.id">
+                            <tr v-for="(item, index) in thisMonth" :key="item.id">
                                 <td>{{ item.billing_name }}</td>
-                                <td>{{ formatAmount(item.amount) }}</td>
+                                <td><span :class="formatClassAmount(item)">{{ formatAmount(item.amount) }}</span></td>
                                 <td>
                                     <status-row 
                                     :idRecord="item.id"
                                     :baseUrl="baseUrl"
                                     :statusProp="item.status"
+                                    @changeStatus="statusChangeThisMonth(index, item, $event)"
                                     />
                                 </td>
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2">Lunas</th>
+                                <th class="lunas">{{ lunasThisMonth }}</th>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Belum Lunas</th>
+                                <th class="belum-lunas">{{ belumThisMonth }}</th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 table-responsive">
                     <h5>Tunggakan tagihan</h5>
                     <table class="table">
                         <thead>
@@ -56,19 +67,30 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in otherMonth" :key="item.id">
+                            <tr v-for="(item, index) in otherMonth" :key="item.id">
                                 <td>{{ item.billing_name }}</td>
                                 <td>{{ item.month_name }} / {{ item.year }}</td>
-                                <td>{{ formatAmount(item.amount) }}</td>
+                               <td><span :class="formatClassAmount(item)">{{ formatAmount(item.amount) }}</span></td>
                                 <td>
                                     <status-row 
                                     :idRecord="item.id"
                                     :baseUrl="baseUrl"
                                     :statusProp="item.status"
+                                    @changeStatus="statusChangeOtherMonth(index, item, $event)"
                                     />
                                 </td>
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2">Lunas</th>
+                                <th class="lunas" colspan="2">{{ lunasOtherMonth }}</th>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Belum Lunas</th>
+                                <th class="belum-lunas" colspan="2">{{ belumOtherMonth }}</th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -109,7 +131,59 @@ export default {
             this.requestData()
         }
     },
+    computed: {
+        lunasThisMonth() {
+            let total = 0
+            this.thisMonth.forEach(el => {
+                if (el.status == 'L') total = total + el.amount
+            })
+
+            return Numeral(total).format('0,0')
+        },
+        belumThisMonth() {
+            let total = 0
+            this.thisMonth.forEach(el => {
+                if (el.status == 'B') total = total + el.amount
+            })
+            return Numeral(total).format('0,0')
+        },
+        lunasOtherMonth() {
+            let total = 0
+            this.otherMonth.forEach(el => {
+                if (el.status == 'L') total = total + el.amount
+            })
+
+            return Numeral(total).format('0,0')
+        },
+        belumOtherMonth() {
+            let total = 0
+            this.otherMonth.forEach(el => {
+                if (el.status == 'B') total = total + el.amount
+            })
+
+            return Numeral(total).format('0,0')
+        }
+    },
     methods: {
+        statusChangeThisMonth(index, item, status) {
+            item.status = status
+            this.thisMonth.splice(index, 1, item)
+        },
+        statusChangeOtherMonth(index, item, status) {
+            item.status = status
+            this.otherMonth.splice(index, 1, item)
+        },
+        formatClassAmount(item) {
+            let cls = {
+                'badge': true
+            }
+            if (item.status == 'L') cls['badge-success'] = true
+            if (item.status == 'B') cls['badge-danger'] = true
+            if (item.status == 'T') cls['badge-warning'] = true
+            if (item.status == '') cls['badge-secondary'] = true
+
+            return cls 
+        },
         formatAmount(amount){
             return Numeral(amount).format('0,0')
         },
