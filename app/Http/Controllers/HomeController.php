@@ -89,9 +89,11 @@ class HomeController extends Controller
 
     }
 
-    public function download($path, $fileName)
+    public function download($path, $paymentId)
     {
-        $url = public_path($path . '/'. $fileName); 
+        $payment = Payment::FindOrFail($paymentId); 
+
+        $url = public_path($path . '/'. $payment->qr_code); 
 
         return response()->download($url);
     }
