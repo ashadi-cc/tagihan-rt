@@ -20,6 +20,7 @@
                     <a class="dropdown-item" href="#" @click.prevent="month = item.value" v-for="item in formOption.months" :key="item.value">{{ item.text }}</a>
                 </div>
                 </div>
+                <button class="btn btn-success btn-sm ml-10" @click="download()">Download</button>
             </div>
 
         </div>
@@ -33,6 +34,10 @@ export default {
             type: String, 
             default: '{}'
         },
+        baseUrl: {
+            type: String, 
+            default: ''
+        }
     },
     data() {
         return {
@@ -81,6 +86,10 @@ export default {
             }
             this.$emit('changeFilter', data)
         },
+        download() {
+            const url = `${this.baseUrl}/download?year=${this.year}&month=${this.month}`
+            document.location.href = url
+        }
     }
 }
 </script>

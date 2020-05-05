@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form-filter :formFilter="options"  @changeFilter="changeFilterOption($event)" v-show="!editMode"/>
+        <form-filter :formFilter="options" :baseUrl="baseUrl"  @changeFilter="changeFilterOption($event)" v-show="!editMode"/>
         <iuran-table :baseUrl="baseUrl" searchPlaceholder="cari blok..." :filterOption="filterOptions" @getDetail="editMode = $event" />
     </div>
 </template>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\MasterTable\TableBulanan;
+use Excel;
+use App\Exports\IuranPerMonthExport;
 
 
 class TagihanBulanan extends Controller 
@@ -53,6 +55,14 @@ class TagihanBulanan extends Controller
         $table = TableBulanan::NewTable(); 
         
         return $table->getTagihanByUser($request);
+    }
+
+    public function download(Request $request)
+    {
+        $tagihan = new IuranPerMonthExport;
+        $tagihan->getData($request); 
+
+        return Excel::download($tagihan, $tagihan->getTemplateFileName());
     }
 
 }
