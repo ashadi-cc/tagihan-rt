@@ -70,6 +70,7 @@
                 <div class="col-md-12">
                     <table class="table table-borderless">
                         @foreach($payments as $p)
+                        <tr>
                             <td class="">
                                 <div>
                                 <strong>{{ $p->name }}</strong>
@@ -81,7 +82,6 @@
                                 @endif
                             </td>
                         </tr>
-
                         @endforeach
                     </table>
                 </div>
