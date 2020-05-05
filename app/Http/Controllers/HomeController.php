@@ -88,4 +88,11 @@ class HomeController extends Controller
         ]);
 
     }
+
+    public function download($path, $fileName)
+    {
+        $url = public_path($path . '/'. $fileName); 
+
+        return response()->download($url);
+    }
 }

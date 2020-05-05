@@ -19,6 +19,7 @@ Auth::routes();
 
 //root page
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/download/{path}/{fileName}', 'HomeController@download');
 
 /** User */
 Route::get('/user/password', 'UserController@index'); 
