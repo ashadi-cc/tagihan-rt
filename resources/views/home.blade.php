@@ -74,9 +74,7 @@
                                 </div>
                                 @if ($p->qr_code)
                                 <div>
-                                <a href="#">
                                     <img src="{{ url('qr-payment/'. $p->qr_code) }}" alt="" class="img-fluid">
-                                </a>
                                 </div>
                                 @endif
                             </td>
