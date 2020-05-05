@@ -17,6 +17,7 @@
             header-table="{{ $headerTable }}"
             header-data="{{ $headerData }}"
             search-placeholder="Cari blok atau nama"
+            enable-download="true"
             base-url="{{ $baseUrl }}"/>
         </div>
     </div>

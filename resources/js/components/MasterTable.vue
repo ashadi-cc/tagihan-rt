@@ -12,6 +12,9 @@
                     </a>
                 </div>
             </div>
+            <div class="col-md-8" v-show="enableDownload == 'true'">
+                <a class="btn btn-success pull-right" :href="baseUrl + '/download'">Download</a>
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table table-hover">
@@ -71,6 +74,10 @@ export default {
         headerData: {
             type: String,
             default: ''
+        },
+        enableDownload: {
+            type: String, 
+            default: "false"
         }
     },
     data() {

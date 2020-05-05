@@ -32,6 +32,7 @@ Route::prefix('admin')
     
     //master warga
     Route::get('/master/warga', 'Admin\WargaController@index');
+    Route::get('/master/warga/download', 'Admin\WargaController@download');
     Route::get('/master/warga/upload', 'Admin\WargaController@getUpload');
     Route::post('/master/warga/upload', 'Admin\WargaController@postUpload');
     /** CURD */
@@ -61,6 +62,7 @@ Route::prefix('admin')
 
     //tagihan upload dan daftar
     Route::get('/tagihan/upload', 'Admin\TagihanController@index');
+    Route::get('/tagihan/upload/download', 'Admin\TagihanController@download');
     Route::post('/tagihan/upload', 'Admin\TagihanController@uploadTagihan');
     Route::get('/tagihan/upload/template/{idTemplate}', 'Admin\TagihanController@getTemplate');
     /**CURD */

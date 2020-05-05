@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Utils\Upload\UploadUser;
 use App\MasterTable\TableUser;
 use App\User;
+use Excel; 
+use App\Exports\WargaExport;
 
 
 class WargaController extends Controller 
@@ -81,5 +83,10 @@ class WargaController extends Controller
             'fail' => count($result['fail']),
         ];
         return redirect()->back()->with($message);
+    }
+
+    public function download()
+    {
+        return Excel::download(new WargaExport, 'daftar_warga.xlsx');
     }
 }

@@ -12,6 +12,9 @@
                     </a>
                 </div>
             </div>
+            <div class="col-md-8" v-show="records.length > 0">
+                <a class="btn btn-success pull-right" :href="downloadUrl">Download</a>
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table table-hover">
@@ -95,6 +98,17 @@ export default {
         },
         loadingColSpan() {
             return this.tableColumns.length + 2
+        },
+        downloadUrl() {
+            const p = {
+                month: this.filterOption.month,
+                year: this.filterOption.year,
+                billing_id: this.filterOption.tagihan
+            }
+
+            const url = this.baseUrl + '/download?' + jQuery.param(p)
+
+            return url
         }
     },
     mounted() {

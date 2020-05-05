@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Billing;
 use App\Exports\BillingTemplateExport;
+use App\Exports\BillingUserExport;
 use Excel;
 use App\Utils\Upload\UploadBillingUser;
 use App\MasterTable\TableTagihan;
@@ -84,5 +85,13 @@ class TagihanController extends Controller
 
         return $message;
 
+    }
+
+    public function download()
+    {
+        $billingExport = new BillingUserExport; 
+        $billingExport->setBilling(request('billing_id'));
+
+        return Excel::download($billingExport, $billingExport->getTemplateFileName());
     }
 }

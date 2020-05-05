@@ -23,7 +23,7 @@ class BillingTemplateExport implements FromCollection, WithMapping, WithHeadings
         return [
             $user->blok,
             $this->billing->amount,
-            ''
+            'B'
         ];
     }
 
