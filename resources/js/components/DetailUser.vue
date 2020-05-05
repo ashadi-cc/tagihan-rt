@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="col-md-6 table-responsive">
                     <h5>Tagihan Bulan Sekarang ({{ this.currentMonth }}) </h5>
-                    <table class="table">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Iuran</th>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-md-6 table-responsive">
                     <h5>Tunggakan tagihan</h5>
-                    <table class="table">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Iuran</th>

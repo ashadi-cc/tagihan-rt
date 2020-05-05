@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="table-responsive" v-show="emptyData == false">
-                <table class="table">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th class="no-td">No</th>
