@@ -39,20 +39,27 @@ class IuranPerMonthExport implements FromCollection, WithMapping, WithHeadings
                     $result[] = 'N/A';
                 } else {
                     $amount = $r['amount'];
+                    $status = $r['status'];
 
                     switch ($r['status']) {
                         case 'L':
                             $amount = $amount; 
+                            $status = 'Lunas';
                         break;
                         case 'B': 
                             $amount = $amount;
+                            $status = 'Belum Lunas';
+                        break;
+                        case 'T':
+                            $amount = '0'; 
+                            $status = 'Tidak Wajib';
                         break;
                         default:
                             $amount = '0';
                     }
 
                     $result[] = $amount; 
-                    $result[] = $r['status'];
+                    $result[] = $status;
                 }
             }
         }
