@@ -28,6 +28,7 @@
                     </thead>
                     <tbody>
                         @foreach($perMonth as $item)
+                            @if($item->amount)
                             <tr>
                                 <td>{{ $item->billing_name }}</td>
                                 <td>
@@ -41,7 +42,8 @@
                                     </span>
                                     @endif 
                                 </td>
-
+                            </tr>
+                            @endif
                         @endforeach
                     </tbody>
                     <tfoot>
