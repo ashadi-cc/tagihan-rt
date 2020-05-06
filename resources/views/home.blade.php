@@ -49,10 +49,18 @@
                     <tfoot>
                         <tr>
                             <th class="belum-lunas">
-                                Total Tagihan {{ $monthName}} {{ $filter['year'] }}
+                                Tagihan belum dibayar:
                             </th>
                             <th class="">
                                 <span class="belum-lunas">{{ $belumLunas }}</span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="lunas">
+                                Tagihan yang lunas:
+                            </th>
+                            <th class="">
+                                <span class="lunas">{{ $lunas }}</span>
                             </th>
                         </tr>
                     </tfoot>
