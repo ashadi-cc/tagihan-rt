@@ -2,6 +2,15 @@ https://docs.gitlab.com/ee/ci/examples/laravel_with_gitlab_and_envoy/
 
 #summary 
 
+# create docker registrtry 
+docker login registry.gitlab.com
+# build image 
+docker build -t registry.gitlab.com/ashadi-cc/rt-04 .
+
+# push image 
+docker push registry.gitlab.com/ashadi-cc/rt-04
+
+
 create user on server: 
 
 # Create user deployer
@@ -27,4 +36,3 @@ cat ~/.ssh/id_rsa
 PROD_SSH_HOST eg: deployer@yourserver
 SSH_PRIVATE_KEY from cat ~/.ssh/id_rsa
 PROD_SERVER eg: server ip address 
-

@@ -12,7 +12,6 @@
     clone_repository
     run_composer
     update_symlinks
-    run_db_migrate
 @endstory
 
 @task('clone_repository')
@@ -37,12 +36,10 @@
     echo 'Linking .env file'
     ln -nfs {{ $app_dir }}/.env {{ $new_release_dir }}/.env
 
-    echo 'Linking current release'
-    ln -nfs {{ $new_release_dir }} {{ $app_dir }}/current
-@endtask
-
-@task('run_db_migrate')
     echo "Run migrate"
     cd  {{ $new_release_dir }}
     php artisan migrate
+
+    echo 'Linking current release'
+    ln -nfs {{ $new_release_dir }} {{ $app_dir }}/current
 @endtask
