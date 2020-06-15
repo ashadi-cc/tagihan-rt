@@ -11,7 +11,7 @@ variables:
 
 stages:
   - test
-#   - deploy
+  - deploy
 
 unit_test:
   stage: test
