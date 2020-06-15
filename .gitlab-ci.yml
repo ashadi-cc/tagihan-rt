@@ -1,8 +1,5 @@
 image: registry.gitlab.com/ashadi-cc/rt-04:latest
 
-services:
-  - mysql:5.7
-
 variables:
   MYSQL_DATABASE: homestead
   MYSQL_ROOT_PASSWORD: secret
@@ -15,6 +12,8 @@ stages:
 
 unit_test:
   stage: test
+  services:
+    - mysql:5.7
   script:
     - cp .env.example .env
     - composer install
