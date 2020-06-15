@@ -1,45 +1,43 @@
 @servers(['web' => $_ENV['PROD_SSH_HOST']])
 
 @setup
-    $repository = 'git@gitlab.com:ashadi-cc/rt-04.git';
-    $releases_dir = '/var/www/app-rt04/releases';
-    $app_dir = '/var/www/app-rt04';
-    $release = date('YmdHis');
-    $new_release_dir = $releases_dir .'/'. $release;
+    $app_dir = '/var/www/app-rt04/site';
 @endsetup
 
 @story('deploy')
-    clone_repository
+    down_website
+    pull_repo
     run_composer
-    update_symlinks
+    migrate
+    up_website
 @endstory
 
-@task('clone_repository')
-    echo 'Cloning repository'
-    [ -d {{ $releases_dir }} ] || mkdir {{ $releases_dir }}
-    git clone --depth 1 {{ $repository }} {{ $new_release_dir }}
-    cd {{ $new_release_dir }}
-    git reset --hard {{ $commit }}
+@task('down_website')
+    echo "Set site down"
+    cd {{ $app_dir }}
+    php artisan down
 @endtask
+
+@task('pull_repo')
+    echo "Pull master repo"
+    cd {{ $app_dir }}
+    git pull origin master 
+@endtask 
 
 @task('run_composer')
-    echo "Starting deployment ({{ $release }})"
-    cd {{ $new_release_dir }}
-    composer install --prefer-dist --no-scripts -q -o
+    echo "Composer install"
+    cd {{ $app_dir }}
+    composer install --prefer-dist
 @endtask
 
-@task('update_symlinks')
-    echo "Linking storage directory"
-    rm -rf {{ $new_release_dir }}/storage
-    ln -nfs {{ $app_dir }}/storage {{ $new_release_dir }}/storage
-
-    echo 'Linking .env file'
-    ln -nfs {{ $app_dir }}/.env {{ $new_release_dir }}/.env
-
-    echo "Run migrate"
-    cd  {{ $new_release_dir }}
+@task('migrate')
+    echo "Migrate Database"
+    cd {{ $app_dir }}
     php artisan migrate
+@endtask
 
-    echo 'Linking current release'
-    ln -nfs {{ $new_release_dir }} {{ $app_dir }}/current
+@task('up_website')
+    echo "Set site up"
+    cd {{ $app_dir }}
+    php artisan up
 @endtask
