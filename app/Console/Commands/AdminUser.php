@@ -46,7 +46,7 @@ class AdminUser extends Command
         $user->username = 'admin';
         $user->blok = 'admin';
         $user->name = 'Ashadi Cahyadi';
-        $user->email = 'admin.cc@gmail.com'; 
+        $user->email = 'test@email.com'; 
         $user->password = Hash::make('test-123'); 
         $user->default_password = ''; 
         $user->save(); 
